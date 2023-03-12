@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="500.0" styleClass="anchor_background_starter_page" stylesheets="@../../../../../../../Pong/src/main/resources/com/example/pong/style/customize.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pong.Controller">
+   <children>
+      <Pane layoutX="134.0" layoutY="29.0" prefHeight="476.0" prefWidth="513.0" styleClass="anchor_background_starter_page" stylesheets="@style/customize.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="singlePlayerButton" layoutX="100.0" layoutY="186.0" mnemonicParsing="false" onAction="#startTheGame" prefHeight="29.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="SINGLEPLAYER" textAlignment="CENTER" textFill="#ff0095" />
+            <Text fill="#00d4cc" layoutX="14.0" layoutY="159.0" stroke="#00ffef" strokeType="OUTSIDE" strokeWidth="2.0" text="Press to play" textAlignment="CENTER" wrappingWidth="302.21630859375">
+               <font>
+                  <Font name="Silom" size="42.0" />
+               </font>
+            </Text>
+            <Text fill="#23ffde" layoutX="14.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A simple ball game made by Érsek Beatrice-Adrienne " wrappingWidth="331.09130859375">
+               <font>
+                  <Font name="Times New Roman" size="15.0" />
+               </font></Text>
+            <Button layoutX="100.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="MULTIPLAYER" textAlignment="CENTER" textFill="#ff0095" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,18 @@
+.anchor_background_starter_page {
+    -fx-background-image: url('football.jpg');
+    -fx-background-color: black;
+}
+
+.anchor_background_game {
+    -fx-background-image: url('purple_wall.png');
+}
+
+.restart {
+    -fx-background-color: transparent;
+}
+
+.restart_page {
+    /*-fx-background-color: black;*/
+    -fx-background-image: url('balls.jpg');
+    /*-fx-background-radius: 10;*/
+}
