@@ -20,7 +20,7 @@
                <font>
                   <Font name="Times New Roman" size="15.0" />
                </font></Text>
-            <Button layoutX="100.0" layoutY="232.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="MULTIPLAYER" textAlignment="CENTER" textFill="#ff0095" />
+            <Button fx:id="multiplayerButton" layoutX="100.0" layoutY="232.0" mnemonicParsing="false" onAction="#startMultiplayer" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="MULTIPLAYER" textAlignment="CENTER" textFill="#ff0095" />
          </children>
       </Pane>
    </children>

@@ -2,6 +2,8 @@ package com.example.pong;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -146,10 +148,9 @@ public class Controller {
         }
 
         //if ball meets the bottom of the window
-        else if (ball.getTranslateY() + BALL_RADIUS >= APP_H) {
+        else if (ball.getTranslateY() >= APP_H - BALL_RADIUS) {
             ball.xV = ball.getX();
             ball.yV = APP_H;
-            //gameThread.interrupt();
             playBallSound(oufSound,oufM);
             stopGame();
         }
@@ -231,9 +232,6 @@ public class Controller {
 
         ball.setCenterX(APP_W / 2);
         ball.setCenterY(APP_H / 2);
-
-        //gameThread.setDaemon(false);
-        //gameThread.start();
 
         gameStage.setOpacity(1);
         gameStage.setScene(scene);
