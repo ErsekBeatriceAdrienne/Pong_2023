@@ -9,6 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -33,6 +36,8 @@ public class Controller {
     private static Scene sceneGameOver;
     private static Scene multiplayerScene;
 
+    private static DropShadow dropShadow;
+
     @FXML
     private static AnchorPane pane = new AnchorPane();
     @FXML
@@ -52,10 +57,6 @@ public class Controller {
     @FXML
     Button playButton = new Button();
     @FXML
-    private Button yesButton = new Button();
-    @FXML
-    private Button noButton = new Button();
-    @FXML
     private static Button restartButton = new Button();
     @FXML
     private static Button multiplayerButton = new Button();
@@ -68,13 +69,8 @@ public class Controller {
     private static final int RECT_W = 100;
     private static final int RECT_H = 20;
 
-    private static String oufFile = "rect.mp3";
     private static String ballFile = "ball_sound.mp3";
-
-    private static Media oufM = new Media(new File(oufFile).toURI().toString());
     private static Media ballM = new Media(new File(ballFile).toURI().toString());
-
-    private static MediaPlayer oufSound = new MediaPlayer(oufM);
     private static MediaPlayer ballSound = new MediaPlayer(ballM);
 
     @FXML
@@ -94,7 +90,6 @@ public class Controller {
         playStage.setResizable(false);
         playStage.setOpacity(0.8);
         playStage.setScene(playScene);
-        //playStage.getIcons().add(new Image(getClass().getResourceAsStream("/Users/ersekbeatrice-adrienne/Desktop/Sapientia/Labdás játék/Pong_Game_2023_ujbol/src/main/resources/com/example/pong/style/game_icon.jpg")));
 
         playStage.show();
         return playStage;
@@ -103,17 +98,47 @@ public class Controller {
     public static Parent createContent() throws IOException {
         playStage.close();
 
+        restartButton.setPrefHeight(117);
+        restartButton.setPrefWidth(113);
+        restartButton.setText("");
+
+        restartButton.setLayoutX(192);
+        restartButton.setLayoutY(270);
+
+        restartButton.setStyle("-fx-border-color: '#ff1ea9'; -fx-stroke-width: 4; -fx-stroke: '#ff3535'; -fx-border-width: 5; -fx-background-color: transparent;-fx-shape: \"M58.828,16.208l-3.686,4.735c7.944,6.182,11.908,16.191,10.345,26.123C63.121,62.112,48.954,72.432,33.908,70.06C18.863,67.69,8.547,53.522,10.912,38.477c1.146-7.289,5.063-13.694,11.028-18.037c5.207-3.79,11.433-5.613,17.776-5.252l-5.187,5.442l3.848,3.671l8.188-8.596l0.002,0.003l3.668-3.852L46.39,8.188l-0.002,0.001L37.795,0l-3.671,3.852l5.6,5.334c-7.613-0.36-15.065,1.853-21.316,6.403c-7.26,5.286-12.027,13.083-13.423,21.956c-2.879,18.313,9.676,35.558,27.989,38.442c1.763,0.277,3.514,0.411,5.245,0.411c16.254-0.001,30.591-11.85,33.195-28.4C73.317,35.911,68.494,23.73,58.828,16.208z\"");
+
+        restartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    restartGame();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         root.setPrefHeight(APP_H);
         root.setPrefWidth(APP_W);
-        root.setBackground(Background.fill(Color.BLACK));
+        root.setStyle("-fx-background-image: url('https://i.pinimg.com/564x/6f/bc/ef/6fbcefcc86203d915581a8ea1c68f00c.jpg')");
 
         ball = new Ball(BALL_RADIUS);
         rectangle = new Stick( 1);
 
-        rectangle.setFill(Color.WHITE);
+        rectangle.setFill(Color.HOTPINK);
         ball.setFill(Color.CYAN);
 
-        root.getChildren().addAll(ball, rectangle);
+        dropShadow = new DropShadow();
+        dropShadow.setOffsetX(4.0f);
+        dropShadow.setOffsetY(4.0f);
+        dropShadow.setColor(Color.BLACK);
+
+        ball.setEffect(dropShadow);
+        rectangle.setEffect(dropShadow);
+
+        restartButton.setDisable(true);
+        restartButton.setOpacity(0);
+        root.getChildren().addAll(ball, rectangle, restartButton);
         return root;
     }
 
@@ -149,10 +174,15 @@ public class Controller {
 
         //if ball meets the bottom of the window
         else if (ball.getTranslateY() >= APP_H - BALL_RADIUS) {
-            ball.xV = ball.getX();
-            ball.yV = APP_H;
-            playBallSound(oufSound,oufM);
-            stopGame();
+            ball.setX(0);
+            ball.setY(0);
+            restartButton.setDisable(false);
+            restartButton.setEffect(dropShadow);
+
+            ball.setEffect(new BoxBlur(10,10,3));
+            rectangle.setEffect(new BoxBlur(10,10,3));
+
+            restartButton.setOpacity(1);
         }
 
         //if ball meets the top of the window
@@ -225,31 +255,27 @@ public class Controller {
     }
 
     @FXML
-    private void restartGame() throws IOException {
+    private static void restartGame() throws IOException {
+        restartButton.setDisable(true);
+        restartButton.setOpacity(0);
+
         //set the elements to base position
         rectangle.setTranslateX(APP_W / 2.5);
         rectangle.setTranslateY(APP_H - RECT_H);
 
-        ball.setCenterX(APP_W / 2);
-        ball.setCenterY(APP_H / 2);
+        //set effect
+        ball.setEffect(dropShadow);
+        rectangle.setEffect(dropShadow);
+
+        //setting the initial speed for ball
+        ball.setX(2);
+        ball.setY(2);
+
+        ball.setTranslateX(APP_W / 2);
+        ball.setTranslateY(APP_H / 2);
 
         gameStage.setOpacity(1);
-        gameStage.setScene(scene);
-        gameStage.show();
     }
-
-    /*private static void stopGame() throws IOException {
-        gameThread.setDaemon(false);
-        FXMLLoader fxmlLoader = new FXMLLoader(Pong_Game.class.getResource("restartWindow.fxml"));
-        restartScene = new Scene(fxmlLoader.load(),500,700);
-
-        gameStage.setScene(restartScene);
-        gameStage.setOpacity(0.8);
-        restartButton.setOpacity(1);
-
-        gameStage.show();
-        //gameThread.setDaemon(true);
-    }*/
 
     private static void stopGame() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Pong_Game.class.getResource("restartWindow.fxml"));
@@ -260,6 +286,7 @@ public class Controller {
         restartButton.setOpacity(1);
 
         restartStage.show();
+        restartStage.close();
     }
 
     @FXML
