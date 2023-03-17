@@ -2,10 +2,9 @@ package com.example.pong;
 
 import javafx.scene.shape.Rectangle;
 
-public class Stick extends Rectangle {
+import java.awt.event.KeyEvent;
 
-    private static final int APP_W = 500;
-    private static final int APP_H = 700;
+public class Stick extends Rectangle {
 
     private static final int RECT_W = 100;
     private static final int RECT_H = 20;
@@ -14,14 +13,57 @@ public class Stick extends Rectangle {
     public int xV;
     private int speed = 5;
 
-    Stick(int rectagnleId) {
+    Stick(int rectagnleId,double APP_W,double APP_H) {
         super(RECT_W,RECT_H);
 
-        this.setTranslateX(APP_W / 2.5);
-        this.setTranslateY(APP_H - RECT_H);
+        this.setTranslateX(APP_W);
+        this.setTranslateY(APP_H);
 
         this.rectagnleId = rectagnleId;
     }
+
+    public void keyPressed(KeyEvent e) {
+        switch(this.rectagnleId) {
+            case 1:
+                if(e.getKeyCode()==KeyEvent.VK_A) {
+                    setYDirection(-speed);
+                }
+                if(e.getKeyCode()==KeyEvent.VK_D) {
+                    setYDirection(speed);
+                }
+                break;
+            case 2:
+                if(e.getKeyCode()==KeyEvent.VK_LEFT) {
+                    setYDirection(-speed);
+                }
+                if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
+                    setYDirection(speed);
+                }
+                break;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+        switch(this.rectagnleId) {
+            case 1:
+                if(e.getKeyCode()==KeyEvent.VK_A) {
+                    setYDirection(0);
+                }
+                if(e.getKeyCode()==KeyEvent.VK_D) {
+                    setYDirection(0);
+                }
+                break;
+            case 2:
+                if(e.getKeyCode()==KeyEvent.VK_LEFT) {
+                    setYDirection(0);
+                }
+                if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
+                    setYDirection(0);
+                }
+                break;
+        }
+    }
+
 
     public void setYDirection(int xDirection) {
         xV = xDirection;

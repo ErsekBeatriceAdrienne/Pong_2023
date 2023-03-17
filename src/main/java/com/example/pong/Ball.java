@@ -4,18 +4,16 @@ import javafx.scene.shape.Circle;
 import java.util.Random;
 
 public class Ball extends Circle {
-    private static final int APP_W = 500;
-    private static final int APP_H = 700;
 
     private Random random;
     public int xV;
     public int yV;
     private int speed = 2;
 
-    Ball(int radius) {
+    Ball(int radius,int APP_W,int APP_H) {
         super(radius);
-        this.setTranslateX(APP_W / 2);
-        this.setTranslateY(APP_H / 2);
+        this.setTranslateX(APP_W);
+        this.setTranslateY(APP_H);
 
         random = new Random();
         int randomXDirection = random.nextInt(2);
