@@ -30,6 +30,8 @@ public class Controller {
         NONE, LEFT, RIGHT, A, D
     }
 
+    private static StopThreads RUN = new StopThreads();
+
     private static int score = 0;
     private static int score1 = 0;
     private static int score2 = 0;
@@ -115,6 +117,18 @@ public class Controller {
 
     public static Parent createContent() throws IOException {
         helper();
+
+        backToStartButtonSinglePlayer.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    backToStartWhenButtonPressedSinglePlayer();
+                    RUN.setRUNFalse();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         restartButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -126,11 +140,13 @@ public class Controller {
             }
         });
 
-        root.getChildren().addAll(scoreText, ball, rectangle, restartButton);//scoreLabel, backToStartButtonSinlgePlayer - add if you want to exit to main window
+        root.getChildren().addAll(scoreText, ball, rectangle, restartButton);// backToStartButtonSinlgePlayer - add if you want to exit to main window
         return root;
     }
 
     private static void helper() {
+        RUN.setRUNTrue();
+
         scoreText.setFill(Color.BLACK);
         scoreText.setX(APP_W - 70);
         scoreText.setY(20);
@@ -344,7 +360,7 @@ public class Controller {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
 
-        while(true) {
+        while(RUN.getRUN()) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -374,6 +390,18 @@ public class Controller {
 
     private Parent createMultiplayer() throws IOException {
         initialize();
+
+        backToStartButtonMultiPlayer.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    backToStartWhenButtonPressedMultiPlayer();
+                    RUN.setRUNFalse();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         restartButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -441,10 +469,12 @@ public class Controller {
         dropShadow.setOffsetY(4.0f);
         dropShadow.setColor(Color.BLACK);
 
+        Font font = Font.font("new times roman",FontWeight.BOLD,FontPosture.REGULAR,30);
         winnerText.setOpacity(0);
         winnerText.setFill(Color.HOTPINK);
-        winnerText.setStyle("-fx-border-color: black");
-        winnerText.setStyle("-fx-border-width: 5");
+        winnerText.setStroke(Color.BLACK);
+        winnerText.setStrokeWidth(0.5);
+        winnerText.setFont(font);
         winnerText.setEffect(dropShadow);
         scoreMulti1.setX(10);
         scoreMulti1.setY(20);
@@ -514,7 +544,7 @@ public class Controller {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
 
-        while(true) {
+        while(RUN.getRUN()) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -609,16 +639,19 @@ public class Controller {
         //if ball meets the bottom of the window
         else if (player1Ball.getTranslateY() >= MULTI_H - BALL_RADIUS) {
             winnerText.setOpacity(100);
-            winnerText.setX(APP_W / 2 + 50);
-            winnerText.setY(APP_H / 2 - 90);
-            winnerText.setStyle("-fx-font-size: 30");
             if (score1 < score2) {
+                winnerText.setX(APP_W / 2 + 25);
+                winnerText.setY(APP_H / 2 - 90);
                 winnerText.setText("WINNER IS PLAYER 2!");
             }
             else if (score1 > score2){
+                winnerText.setX(APP_W / 2 + 25);
+                winnerText.setY(APP_H / 2 - 90);
                 winnerText.setText("WINNER IS PLAYER 1!");
             }
             else if (score1 == score2) {
+                winnerText.setX(APP_W / 2 + 50);
+                winnerText.setY(APP_H / 2 - 90);
                 winnerText.setText("NO WINNER :) !");
             }
             player1Ball.setX(0);
@@ -676,16 +709,19 @@ public class Controller {
         //if ball meets the bottom of the window
         else if (player2Ball.getTranslateY() >= MULTI_H - BALL_RADIUS) {
             winnerText.setOpacity(100);
-            winnerText.setX(APP_W / 2 + 50);
-            winnerText.setY(APP_H / 2 - 90);
-            winnerText.setStyle("-fx-font-size: 30");
             if (score1 < score2) {
+                winnerText.setX(APP_W / 2 + 30);
+                winnerText.setY(APP_H / 2 - 90);
                 winnerText.setText("WINNER IS PLAYER 2!");
             }
             else if (score1 > score2){
+                winnerText.setX(APP_W / 2 + 30);
+                winnerText.setY(APP_H / 2 - 90);
                 winnerText.setText("WINNER IS PLAYER 1!");
             }
             else if (score1 == score2) {
+                winnerText.setX(APP_W / 2 + 50);
+                winnerText.setY(APP_H / 2 - 90);
                 winnerText.setText("NO WINNER :) !");
             }
 
@@ -766,6 +802,7 @@ public class Controller {
     ///BACK TO THE MAIN PAGE
 
     private static void backToStartWhenButtonPressedSinglePlayer() throws IOException {
+        playStage.close();
         restartButton.setDisable(true);
         restartButton.setOpacity(0);
         backToStartButtonSinglePlayer.setOpacity(0);
