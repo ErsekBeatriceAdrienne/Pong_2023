@@ -15,7 +15,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -35,6 +36,7 @@ public class Controller {
     private static Text scoreText = new Text();
     private static Text scoreMulti1 = new Text();
     private static Text scoreMulti2 = new Text();
+    private static Text winnerText = new Text();
 
     private static Scene scene;
     private static Scene playScene;
@@ -129,11 +131,7 @@ public class Controller {
     }
 
     private static void helper() {
-        /*scoreLabel.setText("SCORE : " + score);
-        scoreLabel.setTextFill(Color.BLACK);
-        scoreLabel.setTranslateX(APP_W - 90);
-        scoreLabel.setTranslateY(10);
-        scoreLabel.setFont(new Font(15));*/
+        scoreText.setFill(Color.BLACK);
         scoreText.setX(APP_W - 70);
         scoreText.setY(20);
 
@@ -389,7 +387,7 @@ public class Controller {
             }
         });
 
-        multiplayerPane.getChildren().addAll(scoreMulti1,scoreMulti2,player1Ball,player2Ball,player1Stick,player2Stick,separator,restartButton);//backToStartButtonMultiPlayer - add it if you want to exit to main window
+        multiplayerPane.getChildren().addAll(winnerText,scoreMulti1,scoreMulti2,player1Ball,player2Ball,player1Stick,player2Stick,separator,restartButton);//backToStartButtonMultiPlayer - add it if you want to exit to main window
         return multiplayerPane;
     }
 
@@ -438,6 +436,16 @@ public class Controller {
     }
 
     private static void initialize() {
+        dropShadow = new DropShadow();
+        dropShadow.setOffsetX(4.0f);
+        dropShadow.setOffsetY(4.0f);
+        dropShadow.setColor(Color.BLACK);
+
+        winnerText.setOpacity(0);
+        winnerText.setFill(Color.HOTPINK);
+        winnerText.setStyle("-fx-border-color: black");
+        winnerText.setStyle("-fx-border-width: 5");
+        winnerText.setEffect(dropShadow);
         scoreMulti1.setX(10);
         scoreMulti1.setY(20);
         scoreMulti2.setX(MULTI_W - 70);
@@ -467,11 +475,6 @@ public class Controller {
 
         player1Stick = new Stick(1,MULTI_W / 4,MULTI_H - RECT_H);
         player2Stick = new Stick(2,MULTI_W / 2 + APP_W / 2,MULTI_H - RECT_H);
-
-        dropShadow = new DropShadow();
-        dropShadow.setOffsetX(4.0f);
-        dropShadow.setOffsetY(4.0f);
-        dropShadow.setColor(Color.BLACK);
 
         player1Ball.setEffect(dropShadow);
         player2Ball.setEffect(dropShadow);
@@ -605,6 +608,19 @@ public class Controller {
         }
         //if ball meets the bottom of the window
         else if (player1Ball.getTranslateY() >= MULTI_H - BALL_RADIUS) {
+            winnerText.setOpacity(100);
+            winnerText.setX(APP_W / 2 + 50);
+            winnerText.setY(APP_H / 2 - 90);
+            winnerText.setStyle("-fx-font-size: 30");
+            if (score1 < score2) {
+                winnerText.setText("WINNER IS PLAYER 2!");
+            }
+            else if (score1 > score2){
+                winnerText.setText("WINNER IS PLAYER 1!");
+            }
+            else if (score1 == score2) {
+                winnerText.setText("NO WINNER :) !");
+            }
             player1Ball.setX(0);
             player1Ball.setY(0);
             restartButton.setDisable(false);
@@ -659,6 +675,20 @@ public class Controller {
         }
         //if ball meets the bottom of the window
         else if (player2Ball.getTranslateY() >= MULTI_H - BALL_RADIUS) {
+            winnerText.setOpacity(100);
+            winnerText.setX(APP_W / 2 + 50);
+            winnerText.setY(APP_H / 2 - 90);
+            winnerText.setStyle("-fx-font-size: 30");
+            if (score1 < score2) {
+                winnerText.setText("WINNER IS PLAYER 2!");
+            }
+            else if (score1 > score2){
+                winnerText.setText("WINNER IS PLAYER 1!");
+            }
+            else if (score1 == score2) {
+                winnerText.setText("NO WINNER :) !");
+            }
+
             player2Ball.setX(0);
             player2Ball.setY(0);
             restartButton.setDisable(false);
@@ -695,6 +725,7 @@ public class Controller {
     }
 
     private static void restartMultiplayer() throws IOException {
+        winnerText.setOpacity(0);
         score1 = 0;
         score2 = 0;
 
