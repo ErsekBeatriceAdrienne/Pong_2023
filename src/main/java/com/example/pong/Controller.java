@@ -31,6 +31,7 @@ public class Controller {
     }
 
     private static StopThreads RUN = new StopThreads();
+    private static StopThreads RUN2 = new StopThreads();
 
     private static int score = 0;
     private static int score1 = 0;
@@ -123,7 +124,6 @@ public class Controller {
             public void handle(ActionEvent event) {
                 try {
                     backToStartWhenButtonPressedSinglePlayer();
-                    RUN.setRUNFalse();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -140,7 +140,7 @@ public class Controller {
             }
         });
 
-        root.getChildren().addAll(scoreText, ball, rectangle, restartButton);// backToStartButtonSinlgePlayer - add if you want to exit to main window
+        root.getChildren().addAll(scoreText, ball, rectangle, restartButton,backToStartButtonSinglePlayer);// backToStartButtonSinglePlayer - add if you want to exit to main window
         return root;
     }
 
@@ -271,7 +271,7 @@ public class Controller {
     @FXML
     public void startTheGame() throws IOException {
         playStage.close();
-
+        RUN.setRUNTrue();
         scene = new Scene(createContent());
         singlePlayerThread = new Thread(Controller::run);
         singlePlayerThread.start();
@@ -280,11 +280,11 @@ public class Controller {
             switch (event.getCode()) {
                 case LEFT:
                 case A:
-                    action = UserAction.LEFT;
+                    action = Controller.UserAction.LEFT;
                     break;
                 case RIGHT:
                 case D:
-                    action = UserAction.RIGHT;
+                    action = Controller.UserAction.RIGHT;
                     break;
             }
         });
@@ -295,7 +295,7 @@ public class Controller {
                 case A:
                 case RIGHT:
                 case D:
-                    action = UserAction.NONE;
+                    action = Controller.UserAction.NONE;
                     break;
             }
         });
@@ -311,7 +311,7 @@ public class Controller {
     @FXML
     private static void restartGame() throws IOException {
         score = 0;
-
+        RUN.setRUNTrue();
         restartButton.setDisable(true);
         restartButton.setOpacity(0);
         backToStartButtonSinglePlayer.setDisable(true);
@@ -339,8 +339,9 @@ public class Controller {
     private void closeGame() {
         singlePlayerStage.close();
         restartStage.close();
-        stageGameOver.close();
+        //stageGameOver.close();
     }
+
 
     //opens a different window for game over
     private static void openGameOver() throws IOException {
@@ -396,7 +397,6 @@ public class Controller {
             public void handle(ActionEvent event) {
                 try {
                     backToStartWhenButtonPressedMultiPlayer();
-                    RUN.setRUNFalse();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -415,14 +415,14 @@ public class Controller {
             }
         });
 
-        multiplayerPane.getChildren().addAll(winnerText,scoreMulti1,scoreMulti2,player1Ball,player2Ball,player1Stick,player2Stick,separator,restartButton);//backToStartButtonMultiPlayer - add it if you want to exit to main window
+        multiplayerPane.getChildren().addAll(winnerText,scoreMulti1,scoreMulti2,player1Ball,player2Ball,player1Stick,player2Stick,separator,restartButton,backToStartButtonMultiPlayer);//backToStartButtonMultiPlayer - add it if you want to exit to main window
         return multiplayerPane;
     }
 
     @FXML
     private void startMultiplayer() throws IOException {
         playStage.close();
-
+        RUN2.setRUNTrue();
         multiplayerScene = new Scene(createMultiplayer());
         multiPlayerThread = new Thread(Controller::runMultiplayer);
         multiPlayerThread.start();
@@ -544,7 +544,7 @@ public class Controller {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
 
-        while(RUN.getRUN()) {
+        while(RUN2.getRUN()) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -764,6 +764,7 @@ public class Controller {
         winnerText.setOpacity(0);
         score1 = 0;
         score2 = 0;
+        RUN2.setRUNTrue();
 
         restartButton.setDisable(true);
         restartButton.setOpacity(0);
@@ -802,7 +803,9 @@ public class Controller {
     ///BACK TO THE MAIN PAGE
 
     private static void backToStartWhenButtonPressedSinglePlayer() throws IOException {
+        RUN.setRUNFalse();
         playStage.close();
+        singlePlayerStage.close();
         restartButton.setDisable(true);
         restartButton.setOpacity(0);
         backToStartButtonSinglePlayer.setOpacity(0);
@@ -812,6 +815,8 @@ public class Controller {
     }
 
     private static void backToStartWhenButtonPressedMultiPlayer() throws IOException {
+        RUN2.setRUNFalse();
+        multiplayerStage.close();
         restartButton.setDisable(true);
         restartButton.setOpacity(0);
         backToStartButtonMultiPlayer.setOpacity(0);
