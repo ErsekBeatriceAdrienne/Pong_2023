@@ -5,3 +5,4 @@
 2023.04.23 - Version 1.0 done
   Multiplayer and singleplayer game
   This version features score counting,shadows of objects,cool backgrounds,neon lights style,and many more..
+1.0.0.0 - needs jdk 19!
