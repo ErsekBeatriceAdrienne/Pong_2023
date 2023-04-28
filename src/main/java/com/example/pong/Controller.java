@@ -147,6 +147,7 @@ public class Controller {
     private static void helper() {
         RUN.setRUNTrue();
 
+        scoreText.setText("SCORE: " + score);
         scoreText.setFill(Color.BLACK);
         scoreText.setX(APP_W - 70);
         scoreText.setY(20);
@@ -361,7 +362,7 @@ public class Controller {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
 
-        while(RUN.getRUN()) {
+        while(RUN.getRUN() == true) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -476,8 +477,10 @@ public class Controller {
         winnerText.setStrokeWidth(0.5);
         winnerText.setFont(font);
         winnerText.setEffect(dropShadow);
+        scoreMulti1.setText("SCORE: " + score1);
         scoreMulti1.setX(10);
         scoreMulti1.setY(20);
+        scoreMulti2.setText("SCORE: " + score2);
         scoreMulti2.setX(MULTI_W - 70);
         scoreMulti2.setY(20);
 
@@ -544,7 +547,7 @@ public class Controller {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
 
-        while(RUN2.getRUN()) {
+        while(RUN2.getRUN() == true) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
