@@ -91,6 +91,10 @@ public class Controller {
     private static Media ballM = new Media(new File(ballFile).toURI().toString());
     private static MediaPlayer ballSound = new MediaPlayer(ballM);
 
+    private static String rectangleFile = "rectangle.mp3";
+    private static Media rectangleM = new Media(new File(rectangleFile).toURI().toString());
+    private static MediaPlayer rectangleSound = new MediaPlayer(rectangleM);
+
     @FXML
     private static Ball ball;
     private static Ball player1Ball;
