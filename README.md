@@ -7,3 +7,4 @@
   This version features score counting,shadows of objects,cool backgrounds,neon lights style,and many more..
 1.0.0.0 - needs jdk 19!
 1.0.0.1 - out
+1.0.0.2 - out,with semi workin back to main menu button
