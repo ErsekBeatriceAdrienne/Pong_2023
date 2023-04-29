@@ -140,12 +140,17 @@ public class Controller {
             }
         });
 
-        root.getChildren().addAll(scoreText, ball, rectangle, restartButton,backToStartButtonSinglePlayer);// backToStartButtonSinglePlayer - add if you want to exit to main window
+        root.getChildren().addAll(scoreText, ball, rectangle, restartButton,backToStartButtonSinglePlayer);
         return root;
     }
 
     private static void helper() {
         RUN.setRUNTrue();
+
+        dropShadow = new DropShadow();
+        dropShadow.setOffsetX(4.0f);
+        dropShadow.setOffsetY(4.0f);
+        dropShadow.setColor(Color.BLACK);
 
         scoreText.setText("SCORE: " + score);
         scoreText.setFill(Color.BLACK);
@@ -158,6 +163,7 @@ public class Controller {
         backToStartButtonSinglePlayer.setPrefWidth(35);
         restartButton.setText("");
         backToStartButtonSinglePlayer.setText("");
+        backToStartButtonSinglePlayer.setEffect(dropShadow);
 
         restartButton.setLayoutX(192);
         restartButton.setLayoutY(270);
@@ -165,7 +171,7 @@ public class Controller {
         backToStartButtonSinglePlayer.setLayoutY(20);
 
         restartButton.setStyle("-fx-border-color: '#ff1ea9'; -fx-stroke-width: 4; -fx-stroke: '#ff3535'; -fx-border-width: 5; -fx-background-color: transparent;-fx-shape: \"M58.828,16.208l-3.686,4.735c7.944,6.182,11.908,16.191,10.345,26.123C63.121,62.112,48.954,72.432,33.908,70.06C18.863,67.69,8.547,53.522,10.912,38.477c1.146-7.289,5.063-13.694,11.028-18.037c5.207-3.79,11.433-5.613,17.776-5.252l-5.187,5.442l3.848,3.671l8.188-8.596l0.002,0.003l3.668-3.852L46.39,8.188l-0.002,0.001L37.795,0l-3.671,3.852l5.6,5.334c-7.613-0.36-15.065,1.853-21.316,6.403c-7.26,5.286-12.027,13.083-13.423,21.956c-2.879,18.313,9.676,35.558,27.989,38.442c1.763,0.277,3.514,0.411,5.245,0.411c16.254-0.001,30.591-11.85,33.195-28.4C73.317,35.911,68.494,23.73,58.828,16.208z\"");
-        backToStartButtonSinglePlayer.setStyle("-fx-border-color: '#ff1ea9'; -fx-stroke-width: 4; -fx-stroke: '#ff3535'; -fx-border-width: 4; -fx-background-color: transparent; -fx-shape: \"M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z\"; -fx-stroke: '#000'; -fx-stroke-line-cap: round; -fx-stroke-line-join: round; -fx-stroke-width: 48mp");
+        backToStartButtonSinglePlayer.setStyle("-fx-border-color: '#ff1ea9'; -fx-stroke-width: 4; -fx-stroke: '#ff3535'; -fx-border-width: 5; -fx-background-color: transparent; -fx-shape: \"M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z\"; -fx-stroke: '#000'; -fx-stroke-line-cap: round; -fx-stroke-line-join: round; -fx-stroke-width: 48mp");
 
         root.setPrefHeight(APP_H);
         root.setPrefWidth(APP_W);
@@ -176,11 +182,6 @@ public class Controller {
 
         rectangle.setFill(Color.HOTPINK);
         ball.setFill(Color.CYAN);
-
-        dropShadow = new DropShadow();
-        dropShadow.setOffsetX(4.0f);
-        dropShadow.setOffsetY(4.0f);
-        dropShadow.setColor(Color.BLACK);
 
         ball.setEffect(dropShadow);
         rectangle.setEffect(dropShadow);
@@ -416,7 +417,7 @@ public class Controller {
             }
         });
 
-        multiplayerPane.getChildren().addAll(winnerText,scoreMulti1,scoreMulti2,player1Ball,player2Ball,player1Stick,player2Stick,separator,restartButton,backToStartButtonMultiPlayer);//backToStartButtonMultiPlayer - add it if you want to exit to main window
+        multiplayerPane.getChildren().addAll(winnerText,scoreMulti1,scoreMulti2,player1Ball,player2Ball,player1Stick,player2Stick,separator,restartButton,backToStartButtonMultiPlayer);
         return multiplayerPane;
     }
 
@@ -491,11 +492,12 @@ public class Controller {
         restartButton.setLayoutX(343);
         restartButton.setLayoutY(279);
 
+        backToStartButtonMultiPlayer.setEffect(dropShadow);
         backToStartButtonMultiPlayer.setPrefHeight(32);
         backToStartButtonMultiPlayer.setPrefWidth(32);
 
         backToStartButtonMultiPlayer.setLayoutX(20);
-        backToStartButtonMultiPlayer.setLayoutY(20);
+        backToStartButtonMultiPlayer.setLayoutY(30);
 
         restartButton.setStyle("-fx-border-color: '#ff1ea9'; -fx-stroke-width: 4; -fx-stroke: '#ff3535'; -fx-border-width: 5; -fx-background-color: transparent;-fx-shape: \"M58.828,16.208l-3.686,4.735c7.944,6.182,11.908,16.191,10.345,26.123C63.121,62.112,48.954,72.432,33.908,70.06C18.863,67.69,8.547,53.522,10.912,38.477c1.146-7.289,5.063-13.694,11.028-18.037c5.207-3.79,11.433-5.613,17.776-5.252l-5.187,5.442l3.848,3.671l8.188-8.596l0.002,0.003l3.668-3.852L46.39,8.188l-0.002,0.001L37.795,0l-3.671,3.852l5.6,5.334c-7.613-0.36-15.065,1.853-21.316,6.403c-7.26,5.286-12.027,13.083-13.423,21.956c-2.879,18.313,9.676,35.558,27.989,38.442c1.763,0.277,3.514,0.411,5.245,0.411c16.254-0.001,30.591-11.85,33.195-28.4C73.317,35.911,68.494,23.73,58.828,16.208z\"");
         backToStartButtonMultiPlayer.setStyle("-fx-border-color: '#ff1ea9'; -fx-stroke-width: 4; -fx-stroke: '#ff3535'; -fx-border-width: 4; -fx-background-color: transparent; -fx-shape: \"M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z\"; -fx-stroke: '#000'; -fx-stroke-line-cap: round; -fx-stroke-line-join: round; -fx-stroke-width: 48mp");
