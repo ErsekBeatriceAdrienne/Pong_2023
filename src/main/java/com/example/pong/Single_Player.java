@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -26,6 +27,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class Single_Player extends Controller implements IMode {
+
+    @FXML
+    public static Button restartButton = new Button();
+
+    private static String ballFile = "ball_sound.mp3";
+    public static Media ballM = new Media(new File(ballFile).toURI().toString());
+    public static MediaPlayer ballSound = new MediaPlayer(ballM);
+
     private static final int APP_W = 500;
     private static final int APP_H = 700;
 
@@ -75,6 +84,44 @@ public class Single_Player extends Controller implements IMode {
 
     public static UserAction action = UserAction.NONE;
 
+    public static void startTheGame() throws IOException {
+        playStage.close();
+        RUN.setRUNTrue();
+        scene = new Scene(createContent());
+        singlePlayerThread = new Thread(Single_Player::run);
+        singlePlayerThread.start();
+
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case LEFT:
+                case A:
+                    action = UserAction.LEFT;
+                    break;
+                case RIGHT:
+                case D:
+                    action = UserAction.RIGHT;
+                    break;
+            }
+        });
+
+        scene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case LEFT:
+                case A:
+                case RIGHT:
+                case D:
+                    action = UserAction.NONE;
+                    break;
+            }
+        });
+
+        singlePlayerStage.setTitle("Ball Game");
+        singlePlayerStage.setOpacity(1);
+        singlePlayerStage.setScene(scene);
+        singlePlayerStage.setResizable(false);
+        singlePlayerStage.getIcons().add(new Image(Single_Player.class.getResourceAsStream("/com/example/pong/style/game_icon.jpg")));
+        singlePlayerStage.show();
+    }
 
     public static Parent createContent() throws IOException {
         helper();

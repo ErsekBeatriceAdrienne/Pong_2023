@@ -13,7 +13,7 @@
    <children>
       <Pane layoutX="-8.0" prefHeight="450.0" prefWidth="500.0" styleClass="anchor_background_starter_page" stylesheets="@style/customize.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="singlePlayerButton" layoutX="41.0" layoutY="157.0" mnemonicParsing="false" onAction="#startTheGame" prefHeight="29.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="SINGLEPLAYER" textAlignment="CENTER" textFill="#ff0095" />
+            <Button fx:id="singlePlayerButton" layoutX="41.0" layoutY="157.0" mnemonicParsing="false" onAction="#single_player" prefHeight="29.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="SINGLEPLAYER" textAlignment="CENTER" textFill="#ff0095" />
             <Text fill="#00d4cc" layoutX="99.0" layoutY="84.0" stroke="#00ffef" strokeType="OUTSIDE" strokeWidth="2.0" text="Press to play" textAlignment="CENTER" wrappingWidth="302.21630859375">
                <font>
                   <Font name="Silom" size="42.0" />
@@ -23,7 +23,7 @@
                <font>
                   <Font name="Times New Roman" size="15.0" />
                </font></Text>
-            <Button fx:id="multiplayerButton" layoutX="41.0" layoutY="205.0" mnemonicParsing="false" onAction="#startMultiplayer" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="MULTIPLAYER" textAlignment="CENTER" textFill="#ff0095" />
+            <Button fx:id="multiplayerButton" layoutX="41.0" layoutY="205.0" mnemonicParsing="false" onAction="#multi_player" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="MULTIPLAYER" textAlignment="CENTER" textFill="#ff0095" />
             <Text fill="#75ff76" layoutX="413.0" layoutY="431.0" strokeType="OUTSIDE" strokeWidth="0.0" text="version 1.0.0.2">
                <font>
                   <Font name="Arial" size="11.0" />
@@ -55,8 +55,8 @@
                   <Font name="Silom" size="18.0" />
                </font>
             </Text>
-            <Button layoutX="41.0" layoutY="296.0" mnemonicParsing="false" onAction="#startPVP" prefHeight="29.0" prefWidth="169.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="PLAYER VS PLAYER" textAlignment="CENTER" textFill="#ff0095" />
-            <Button fx:id="" layoutX="41.0" layoutY="342.0" mnemonicParsing="false" onAction="#start_PVC" prefHeight="27.0" prefWidth="169.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="PLAYER VS COMPUTER" textAlignment="CENTER" textFill="#ff0095" />
+            <Button layoutX="41.0" layoutY="296.0" mnemonicParsing="false" onAction="#player_vs_player" prefHeight="29.0" prefWidth="169.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="PLAYER VS PLAYER" textAlignment="CENTER" textFill="#ff0095" />
+            <Button fx:id="" layoutX="41.0" layoutY="342.0" mnemonicParsing="false" onAction="#player_vs_computer" prefHeight="27.0" prefWidth="169.0" style="-fx-background-color: #222222; -fx-border-color: #ff69b4;" text="PLAYER VS COMPUTER" textAlignment="CENTER" textFill="#ff0095" />
          </children>
       </Pane>
    </children>

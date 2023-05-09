@@ -9,7 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -19,11 +22,18 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 import static com.example.pong.Single_Player.*;
 
 public class Multi_Player implements IMode {
+    @FXML
+    public static Button restartButton = new Button();
+
+    private static String ballFile = "ball_sound.mp3";
+    public static Media ballM = new Media(new File(ballFile).toURI().toString());
+    public static MediaPlayer ballSound = new MediaPlayer(ballM);
 
     private static final int APP_W = 500;
     private static final int APP_H = 700;
@@ -52,6 +62,48 @@ public class Multi_Player implements IMode {
     private static Stick player1Stick;
     private static Stick player2Stick;
 
+    public static void startMultiplayer() throws IOException {
+        playStage.close();
+        RUN2.setRUNTrue();
+        multiplayerScene = new Scene(createMultiplayer());
+        multiPlayerThread = new Thread(Multi_Player::runMultiplayer);
+        multiPlayerThread.start();
+
+        multiplayerScene.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case LEFT:
+                    action = UserAction.LEFT;
+                    break;
+                case A:
+                    action = UserAction.A;
+                    break;
+                case D:
+                    action = UserAction.D;
+                    break;
+                case RIGHT:
+                    action = UserAction.RIGHT;
+                    break;
+            }
+        });
+
+        multiplayerScene.setOnKeyReleased(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case LEFT:
+                case A:
+                case RIGHT:
+                case D:
+                    action = UserAction.NONE;
+                    break;
+            }
+        });
+
+        multiplayerStage.setScene(multiplayerScene);
+        multiplayerStage.setTitle("Ball Game");
+        multiplayerStage.setOpacity(1);
+        multiplayerStage.setResizable(false);
+        multiplayerStage.getIcons().add(new Image(Multi_Player.class.getResourceAsStream("/com/example/pong/style/game_icon.jpg")));
+        multiplayerStage.show();
+    }
 
     public static Parent createMultiplayer() throws IOException {
         initialize();

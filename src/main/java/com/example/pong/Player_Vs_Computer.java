@@ -9,7 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -18,15 +21,22 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 import static com.example.pong.Controller.*;
 import static com.example.pong.Single_Player.playBallSound;
+import static com.example.pong.Single_Player.playStage;
 
 public class Player_Vs_Computer implements IMode {
+    @FXML
+    public static Button restartButton = new Button();
     enum UserActionPVC {
         NONE, UP, DOWN, W, S
     }
+    private static String ballFile = "ball_sound.mp3";
+    public static Media ballM = new Media(new File(ballFile).toURI().toString());
+    public static MediaPlayer ballSound = new MediaPlayer(ballM);
     public static UserActionPVC actionPVC = UserActionPVC.NONE;
     @FXML
     private static Button pvcButton = new Button();
@@ -36,6 +46,9 @@ public class Player_Vs_Computer implements IMode {
     public static Stage pvcStage = new Stage();
     @FXML
     public static Button backToMainPVC = new Button();
+    public static final int BALL_RADIUS = 10;
+    public static final int RECT_W = 100;
+    public static final int RECT_H = 20;
     public static final int PVC_W = 1000;
     public static final int PVC_H = 600;
 
@@ -53,6 +66,48 @@ public class Player_Vs_Computer implements IMode {
     public static Stick pvcRectangle1;
     public static Stick pvcRectangle2;
 
+    public static void start_PVC() throws IOException {
+        playStage.close();
+        RUN_PVC.setRUNTrue();
+        pvcScene = new Scene(createContent_PVC());
+        pvcThread = new Thread(Player_Vs_Computer::run_PVC);
+        pvcThread.start();
+
+        pvcScene.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case UP:
+                    actionPVC = UserActionPVC.UP;
+                    break;
+                case W:
+                    actionPVC = UserActionPVC.W;
+                    break;
+                case S:
+                    actionPVC = UserActionPVC.S;
+                    break;
+                case DOWN:
+                    actionPVC = UserActionPVC.DOWN;
+                    break;
+            }
+        });
+
+        pvcScene.setOnKeyReleased(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case UP:
+                case W:
+                case S:
+                case DOWN:
+                    actionPVC = UserActionPVC.NONE;
+                    break;
+            }
+        });
+
+        pvcStage.setScene(pvcScene);
+        pvcStage.setTitle("Ping Pong PvP");
+        pvcStage.setOpacity(1);
+        pvcStage.setResizable(false);
+        pvcStage.getIcons().add(new Image(Player_Vs_Player.class.getResourceAsStream("/com/example/pong/style/game_icon.jpg")));
+        pvcStage.show();
+    }
 
     public static Parent createContent_PVC() throws IOException {
         pvcInitializer();

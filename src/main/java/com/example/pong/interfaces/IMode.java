@@ -3,8 +3,9 @@ package com.example.pong.interfaces;
 import javafx.scene.Parent;
 
 public interface IMode {
+    static void start() {
 
-    //statics
+    }
     static Parent createGame() {
         return null;
     }
@@ -13,8 +14,16 @@ public interface IMode {
     static void run() {
 
     }
-    static void moveRectangles() {}
-    static void collisionCheck() {}
-    static void restart() {}
-    static void backToStartWhenButtonPressed() {}
+    static void moveRectangles() {
+
+    }
+    static void collisionCheck() {
+
+    }
+    static void restart() {
+
+    }
+    static void backToStartWhenButtonPressed() {
+
+    }
 }

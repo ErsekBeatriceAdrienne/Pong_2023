@@ -9,7 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -18,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 import static com.example.pong.Controller.*;
@@ -28,6 +32,12 @@ import static com.example.pong.Single_Player.playStage;
 
 public class Player_Vs_Player implements IMode {
 
+    @FXML
+    public static Button restartButton = new Button();
+
+    private static String ballFile = "ball_sound.mp3";
+    public static Media ballM = new Media(new File(ballFile).toURI().toString());
+    public static MediaPlayer ballSound = new MediaPlayer(ballM);
     enum UserActionPVP {
         NONE, UP, DOWN, W, S
     }
@@ -38,6 +48,10 @@ public class Player_Vs_Player implements IMode {
     public static Stage pvpStage = new Stage();
     @FXML
     private static Button backToMainPVP = new Button();
+
+    public static final int BALL_RADIUS = 10;
+    public static final int RECT_W = 100;
+    public static final int RECT_H = 20;
     private static final int PVP_W = 1000;
     private static final int PVP_H = 600;
 
@@ -54,6 +68,49 @@ public class Player_Vs_Player implements IMode {
     private static Ball pvpBall;
     private static Stick pvpRectangle1;
     private static Stick pvpRectangle2;
+
+    public static void startPVP() throws IOException {
+        playStage.close();
+        RUN_PVP.setRUNTrue();
+        pvpScene = new Scene(createContentPVP());
+        pvpThread = new Thread(Player_Vs_Player::runPVP);
+        pvpThread.start();
+
+        pvpScene.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case UP:
+                    actionPVP = UserActionPVP.UP;
+                    break;
+                case W:
+                    actionPVP = UserActionPVP.W;
+                    break;
+                case S:
+                    actionPVP = UserActionPVP.S;
+                    break;
+                case DOWN:
+                    actionPVP = UserActionPVP.DOWN;
+                    break;
+            }
+        });
+
+        pvpScene.setOnKeyReleased(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case UP:
+                case W:
+                case S:
+                case DOWN:
+                    actionPVP = UserActionPVP.NONE;
+                    break;
+            }
+        });
+
+        pvpStage.setScene(pvpScene);
+        pvpStage.setTitle("Ping Pong PvP");
+        pvpStage.setOpacity(1);
+        pvpStage.setResizable(false);
+        pvpStage.getIcons().add(new Image(Player_Vs_Player.class.getResourceAsStream("/com/example/pong/style/game_icon.jpg")));
+        pvpStage.show();
+    }
 
     public static Parent createContentPVP() throws IOException {
         pvpInitializer();
