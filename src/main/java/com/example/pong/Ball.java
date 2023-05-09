@@ -19,18 +19,18 @@ public class Ball extends Circle {
         int randomXDirection = random.nextInt(2);
         if(randomXDirection == 0)
             randomXDirection--;
-        setX(randomXDirection * speed);
+        setXSpeed(randomXDirection * speed);
 
         int randomYDirection = random.nextInt(2);
         if(randomYDirection == 0)
             randomYDirection--;
-        setY(randomYDirection * speed);
+        setYSpeed(randomYDirection * speed);
     }
 
-    public void setX(int direction) {
+    public void setXSpeed(int direction) {
         xV = direction;
     }
-    public void setY(int direction) {
+    public void setYSpeed(int direction) {
         yV = direction;
     }
 
@@ -49,5 +49,11 @@ public class Ball extends Circle {
     public void moveBall() {
         this.setTranslateX(this.getTranslateX() + xV);
         this.setTranslateY(this.getTranslateY() + yV);
+    }
+
+    public void moveBallWithRectangle(Stick rectangle) {
+        this.setTranslateX(this.getTranslateX() + xV);
+        this.setTranslateY(this.getTranslateY() + yV);
+        rectangle.setYDirection((int) (rectangle.getTranslateY() + this.getTranslateY()));
     }
 }
