@@ -1,6 +1,10 @@
-package com.example.pong;
+package com.example.pong.game_modes;
 
+import com.example.pong.Controller;
+import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
+import com.example.pong.obejcts.Ball;
+import com.example.pong.obejcts.Stick;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,7 +29,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static com.example.pong.Single_Player.*;
+import static com.example.pong.game_modes.Single_Player.*;
 
 public class Multi_Player implements IMode {
     @FXML
@@ -518,6 +522,6 @@ public class Multi_Player implements IMode {
         backToStartButtonMultiPlayer.setOpacity(0);
         backToStartButtonMultiPlayer.setDisable(true);
 
-        play();
+        Controller.play();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pong;
+package com.example.pong.obejcts;
 
 import javafx.scene.shape.Circle;
 import java.util.Random;
@@ -10,7 +10,7 @@ public class Ball extends Circle {
     public int yV;
     private int speed = 2;
 
-    Ball(int radius,int APP_W,int APP_H) {
+    public Ball(int radius, int APP_W, int APP_H) {
         super(radius);
         this.setTranslateX(APP_W);
         this.setTranslateY(APP_H);

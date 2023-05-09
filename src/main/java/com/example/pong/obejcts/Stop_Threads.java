@@ -1,4 +1,4 @@
-package com.example.pong;
+package com.example.pong.obejcts;
 
 public class Stop_Threads {
     private boolean RUN;

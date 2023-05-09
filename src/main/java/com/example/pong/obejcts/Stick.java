@@ -1,4 +1,4 @@
-package com.example.pong;
+package com.example.pong.obejcts;
 
 import javafx.scene.shape.Rectangle;
 
@@ -13,7 +13,7 @@ public class Stick extends Rectangle {
     public int xV;
     private int speed = 5;
 
-    Stick(int rectagnleId,double APP_W,double APP_H) {
+    public Stick(int rectagnleId, double APP_W, double APP_H) {
         super(RECT_W,RECT_H);
 
         this.setTranslateX(APP_W);
@@ -22,7 +22,7 @@ public class Stick extends Rectangle {
         this.rectagnleId = rectagnleId;
     }
 
-    Stick(int ID,int RECT_H,int RECT_W,double APP_H,double APP_W) {
+    public Stick(int ID, int RECT_H, int RECT_W, double APP_H, double APP_W) {
         super(RECT_W,RECT_H);
 
         this.setTranslateX(APP_W);
