@@ -1,9 +1,9 @@
 package com.example.pong;
 
-public class StopThreads {
+public class Stop_Threads {
     private boolean RUN;
 
-    public StopThreads() {
+    public Stop_Threads() {
         this.RUN = true;
     }
 
