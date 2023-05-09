@@ -1,5 +1,6 @@
 package com.example.pong;
 
+import com.example.pong.interfaces.IMode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import java.io.IOException;
 
 import static com.example.pong.Single_Player.*;
 
-public class Multi_Player {
+public class Multi_Player implements IMode {
 
     private static final int APP_W = 500;
     private static final int APP_H = 700;
@@ -70,8 +71,6 @@ public class Multi_Player {
             public void handle(ActionEvent event) {
                 try {
                     restartMultiplayer();
-                    restartButton.setOpacity(0);
-                    restartButton.setDisable(true);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -416,6 +415,8 @@ public class Multi_Player {
         score1 = 0;
         score2 = 0;
         RUN2.setRUNTrue();
+        restartButton.setOpacity(0);
+        restartButton.setDisable(true);
 
         DropShadow dropShadow  = new DropShadow();
         dropShadow = new DropShadow();

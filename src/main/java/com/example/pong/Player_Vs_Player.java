@@ -1,5 +1,6 @@
 package com.example.pong;
 
+import com.example.pong.interfaces.IMode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ import static com.example.pong.Multi_Player.score2;
 import static com.example.pong.Single_Player.playBallSound;
 import static com.example.pong.Single_Player.playStage;
 
-public class Player_Vs_Player {
+public class Player_Vs_Player implements IMode {
 
     enum UserActionPVP {
         NONE, UP, DOWN, W, S

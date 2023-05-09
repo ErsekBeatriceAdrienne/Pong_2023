@@ -9,4 +9,6 @@ module com.example.pong {
 
     opens com.example.pong to javafx.fxml;
     exports com.example.pong;
+    exports com.example.pong.interfaces;
+    opens com.example.pong.interfaces to javafx.fxml;
 }

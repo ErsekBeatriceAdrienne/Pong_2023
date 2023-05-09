@@ -1,5 +1,6 @@
 package com.example.pong;
 
+import com.example.pong.interfaces.IMode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -25,7 +25,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Single_Player extends Controller {
+public class Single_Player extends Controller implements IMode {
     private static final int APP_W = 500;
     private static final int APP_H = 700;
 
@@ -112,9 +112,10 @@ public class Single_Player extends Controller {
         scoreText.setEffect(shadow);
         finalScoreText.setOpacity(0);
         finalScoreText.setFill(Color.HOTPINK);
+        finalScoreText.setStroke(Color.BLACK);
+        finalScoreText.setStrokeWidth(0.5);
         finalScoreText.setX(162);
         finalScoreText.setY(250);
-        finalScoreText.setStyle("-fx-stroke: '#ff3535'; -fx-border-width: 4; -fx-border-color: '#000000'; -fx-border-width: 5;");
         DropShadow dropShadow  = new DropShadow();
         dropShadow.setOffsetX(4.0f);
         dropShadow.setOffsetY(4.0f);
@@ -212,12 +213,9 @@ public class Single_Player extends Controller {
             backToStartButtonSinglePlayer.setDisable(false);
 
             finalScoreText.setOpacity(1);
-            finalScoreText.setStroke(Color.VIOLET);
-            finalScoreText.setStrokeWidth(0.1);
             Font font = Font.font("new times roman", FontWeight.BOLD, FontPosture.REGULAR,30);
             finalScoreText.setText(" Your score : " + score);
             finalScoreText.setFont(font);
-            finalScoreText.setFill(Color.HOTPINK);
             finalScoreText.setEffect(dropShadow);
         }
 
@@ -272,7 +270,6 @@ public class Single_Player extends Controller {
 
         //set effect
         DropShadow dropShadow  = new DropShadow();
-        dropShadow = new DropShadow();
         dropShadow.setOffsetX(4.0f);
         dropShadow.setOffsetY(4.0f);
         dropShadow.setColor(Color.BLACK);
