@@ -254,7 +254,7 @@ public class Single_Player extends Controller implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color)ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color)ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -268,7 +268,7 @@ public class Single_Player extends Controller implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -308,7 +308,7 @@ public class Single_Player extends Controller implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -325,7 +325,7 @@ public class Single_Player extends Controller implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -344,7 +344,6 @@ public class Single_Player extends Controller implements IMode {
 
             ball.setXSpeed(ball.xV);
             ball.setYSpeed(-ball.yV);
-            transitionOfBall.stop();
         }
 
         scoreText.setText("SCORE : " + score);

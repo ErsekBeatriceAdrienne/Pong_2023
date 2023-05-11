@@ -338,7 +338,7 @@ public class Player_Vs_Player implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -352,7 +352,7 @@ public class Player_Vs_Player implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -369,7 +369,7 @@ public class Player_Vs_Player implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -386,7 +386,6 @@ public class Player_Vs_Player implements IMode {
 
             pvpBall.setXSpeed(pvpBall.xV);
             pvpBall.setYSpeed(pvpBall.yV);
-            transitionOfBall.stop();
         }
 
         //ball meets the rectangle2
@@ -398,7 +397,7 @@ public class Player_Vs_Player implements IMode {
 
             //color change
             randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(1),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -415,7 +414,6 @@ public class Player_Vs_Player implements IMode {
 
             pvpBall.setXSpeed(-pvpBall.xV);
             pvpBall.setYSpeed(pvpBall.yV);
-            transitionOfBall.stop();
         }
         scorePVP1.setText("SCORE: " + score1_PVP);
         scorePVP2.setText("SCORE: " + score2_PVP);
