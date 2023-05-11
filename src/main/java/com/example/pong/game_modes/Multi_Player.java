@@ -5,6 +5,8 @@ import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
 import com.example.pong.obejcts.Ball;
 import com.example.pong.obejcts.Stick;
+import javafx.animation.FillTransition;
+import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,16 +26,30 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import static com.example.pong.game_modes.Single_Player.*;
 
 public class Multi_Player implements IMode {
     @FXML
     public static Button restartButton = new Button();
+
+    private static Random random1 = new Random();
+    private static Random random2 = new Random();
+    public static UserAction action = UserAction.NONE;
+
+    private static int randomColorGenerator1;
+    private static int randomColorGenerator2;
+    private static ArrayList<Color> colorsOfTheBall1 = new ArrayList<>();
+    private static ArrayList<Color> colorsOfTheBall2 = new ArrayList<>();
+    private static FillTransition transitionOfBall1;
+    private static FillTransition transitionOfBall2;
 
     private static String ballFile = "ball_sound.mp3";
     public static Media ballM = new Media(new File(ballFile).toURI().toString());
@@ -138,8 +154,20 @@ public class Multi_Player implements IMode {
     }
 
     private static void initialize() {
+
+        colorsOfTheBall1.add(Color.CORAL);
+        colorsOfTheBall1.add(Color.CHARTREUSE);
+        colorsOfTheBall1.add(Color.BLUEVIOLET);
+        colorsOfTheBall1.add(Color.HOTPINK);
+        colorsOfTheBall1.add(Color.CYAN);
+
+        colorsOfTheBall2.add(Color.CORAL);
+        colorsOfTheBall2.add(Color.CHARTREUSE);
+        colorsOfTheBall2.add(Color.BLUEVIOLET);
+        colorsOfTheBall2.add(Color.HOTPINK);
+        colorsOfTheBall2.add(Color.CYAN);
+
         DropShadow dropShadow  = new DropShadow();
-        dropShadow = new DropShadow();
         dropShadow.setOffsetX(4.0f);
         dropShadow.setOffsetY(4.0f);
         dropShadow.setColor(Color.BLACK);
@@ -303,7 +331,6 @@ public class Multi_Player implements IMode {
             //multiplayerPane.setEffect(new GaussianBlur());
 
             DropShadow dropShadow  = new DropShadow();
-            dropShadow = new DropShadow();
             dropShadow.setOffsetX(4.0f);
             dropShadow.setOffsetY(4.0f);
             dropShadow.setColor(Color.BLACK);
@@ -318,16 +345,40 @@ public class Multi_Player implements IMode {
         //stops when balls hit the left side
         if (player1Ball.getTranslateX() - BALL_RADIUS <= 0) {
             player1Ball.setXSpeed(Math.abs(player1Ball.xV));
+
+            //color change
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            transitionOfBall1 = new FillTransition(Duration.seconds(1),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
+            transitionOfBall1.setAutoReverse(false);
+            transitionOfBall1.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall1.play();
+
             playBallSound(ballSound,ballM);
         }
         //stops when balls hit the right side
         else if (player1Ball.getTranslateX() + BALL_RADIUS >= MULTI_W / 2) {
             player1Ball.setXSpeed(-player1Ball.xV);
+
+            //color change
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            transitionOfBall1 = new FillTransition(Duration.seconds(1),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
+            transitionOfBall1.setAutoReverse(false);
+            transitionOfBall1.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall1.play();
+
             playBallSound(ballSound,ballM);
         }
         //if ball meets the top of the window
         else if (player1Ball.getTranslateY() - BALL_RADIUS <= 0){
             player1Ball.setYSpeed(-player1Ball.yV);
+
+            //color change
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            transitionOfBall1 = new FillTransition(Duration.seconds(1),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
+            transitionOfBall1.setAutoReverse(false);
+            transitionOfBall1.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall1.play();
+
             playBallSound(ballSound,ballM);
         }
         //if ball meets the bottom of the window
@@ -370,6 +421,13 @@ public class Multi_Player implements IMode {
             player1Ball.setYSpeed(Math.abs(player1Ball.yV));
             ++score1;
 
+            //color change
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            transitionOfBall1 = new FillTransition(Duration.seconds(1),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
+            transitionOfBall1.setAutoReverse(false);
+            transitionOfBall1.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall1.play();
+
             playBallSound(ballSound,ballM);
 
             //optional for more difficulty
@@ -384,6 +442,7 @@ public class Multi_Player implements IMode {
 
             player1Ball.setXSpeed(player1Ball.xV);
             player1Ball.setYSpeed(-player1Ball.yV);
+            transitionOfBall1.stop();
         }
         scoreMulti1.setText("SCORE : " + score1);
     }
@@ -392,16 +451,40 @@ public class Multi_Player implements IMode {
         //stops when balls hit the left side
         if (player2Ball.getTranslateX() - BALL_RADIUS <= MULTI_W / 2) {
             player2Ball.setXSpeed(Math.abs(player2Ball.xV));
+
+            //color change
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            transitionOfBall2 = new FillTransition(Duration.seconds(1),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
+            transitionOfBall2.setAutoReverse(false);
+            transitionOfBall2.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall2.play();
+
             playBallSound(ballSound, ballM);
         }
         //stops when balls hit the right side
         else if (player2Ball.getTranslateX() + BALL_RADIUS >= MULTI_W) {
             player2Ball.setXSpeed(-player2Ball.xV);
+
+            //color change
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            transitionOfBall2 = new FillTransition(Duration.seconds(1),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
+            transitionOfBall2.setAutoReverse(false);
+            transitionOfBall2.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall2.play();
+
             playBallSound(ballSound, ballM);
         }
         //if ball meets the top of the window
         else if (player2Ball.getTranslateY() - BALL_RADIUS <= 0) {
             player2Ball.setYSpeed(-player2Ball.yV);
+
+            //color change
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            transitionOfBall2 = new FillTransition(Duration.seconds(1),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
+            transitionOfBall2.setAutoReverse(false);
+            transitionOfBall2.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall2.play();
+
             playBallSound(ballSound, ballM);
         }
         //if ball meets the bottom of the window
@@ -430,7 +513,6 @@ public class Multi_Player implements IMode {
             player2Ball.setYSpeed(0);
             restartButton.setDisable(false);
             DropShadow dropShadow  = new DropShadow();
-            dropShadow = new DropShadow();
             dropShadow.setOffsetX(4.0f);
             dropShadow.setOffsetY(4.0f);
             dropShadow.setColor(Color.BLACK);
@@ -449,6 +531,13 @@ public class Multi_Player implements IMode {
             player2Ball.setYSpeed(Math.abs(player2Ball.yV));
             ++score2;
 
+            //color change
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            transitionOfBall2 = new FillTransition(Duration.seconds(1),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
+            transitionOfBall2.setAutoReverse(false);
+            transitionOfBall2.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall2.play();
+
             playBallSound(ballSound, ballM);
 
             //optional for more difficulty
@@ -462,6 +551,7 @@ public class Multi_Player implements IMode {
 
             player2Ball.setXSpeed(player2Ball.xV);
             player2Ball.setYSpeed(-player2Ball.yV);
+            transitionOfBall2.stop();
         }
         scoreMulti2.setText("SCORE : " + score2);
     }
@@ -475,7 +565,6 @@ public class Multi_Player implements IMode {
         restartButton.setDisable(true);
 
         DropShadow dropShadow  = new DropShadow();
-        dropShadow = new DropShadow();
         dropShadow.setOffsetX(4.0f);
         dropShadow.setOffsetY(4.0f);
         dropShadow.setColor(Color.BLACK);

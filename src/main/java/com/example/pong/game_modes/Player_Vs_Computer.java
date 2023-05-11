@@ -4,6 +4,8 @@ import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
 import com.example.pong.obejcts.Ball;
 import com.example.pong.obejcts.Stick;
+import javafx.animation.FillTransition;
+import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,16 +24,27 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import static com.example.pong.Controller.*;
 import static com.example.pong.game_modes.Single_Player.playBallSound;
 import static com.example.pong.game_modes.Single_Player.playStage;
 
 public class Player_Vs_Computer implements IMode {
+
+    private static Random random = new Random();
+    public static Single_Player.UserAction action = Single_Player.UserAction.NONE;
+
+    private static int randomColorGenerator;
+    private static ArrayList<Color> colorsOfTheBall = new ArrayList<>();
+    private static FillTransition transitionOfBall;
+
     @FXML
     public static Button restartButton = new Button();
     enum UserActionPVC {
@@ -144,6 +157,13 @@ public class Player_Vs_Computer implements IMode {
     }
 
     public static void pvcInitializer() {
+
+        colorsOfTheBall.add(Color.CORAL);
+        colorsOfTheBall.add(Color.CHARTREUSE);
+        colorsOfTheBall.add(Color.BLUEVIOLET);
+        colorsOfTheBall.add(Color.HOTPINK);
+        colorsOfTheBall.add(Color.CYAN);
+
         score1_PVC = 0;
         score2_PVC = 0;
         RUN_PVC.setRUNTrue();
@@ -310,7 +330,6 @@ public class Player_Vs_Computer implements IMode {
             pvcBall.setYSpeed(0);
             restartButton.setDisable(false);
             DropShadow dropShadow  = new DropShadow();
-            dropShadow = new DropShadow();
             dropShadow.setOffsetX(4.0f);
             dropShadow.setOffsetY(4.0f);
             dropShadow.setColor(Color.BLACK);
@@ -350,7 +369,6 @@ public class Player_Vs_Computer implements IMode {
             pvcBall.setYSpeed(0);
             restartButton.setDisable(false);
             DropShadow dropShadow  = new DropShadow();
-            dropShadow = new DropShadow();
             dropShadow.setOffsetX(4.0f);
             dropShadow.setOffsetY(4.0f);
             dropShadow.setColor(Color.BLACK);
@@ -386,12 +404,28 @@ public class Player_Vs_Computer implements IMode {
         //ball at bottom
         else if (pvcBall.getTranslateY() + BALL_RADIUS >= PVC_H) {
             pvcBall.setYSpeed(-pvcBall.yV);
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
         }
 
         //ball at top
         else if (pvcBall.getTranslateY() - BALL_RADIUS <= 0) {
             pvcBall.setYSpeed(-pvcBall.yV);
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
         }
 
@@ -401,6 +435,14 @@ public class Player_Vs_Computer implements IMode {
                 pvcBall.getTranslateY() - BALL_RADIUS <= pvcRectangle1.getTranslateY() + RECT_W) {
             ++score1_PVC;
             pvcBall.setXSpeed(Math.abs(pvcBall.xV));
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
 
             pvcBall.xV++;
@@ -413,6 +455,7 @@ public class Player_Vs_Computer implements IMode {
 
             pvcBall.setXSpeed(pvcBall.xV);
             pvcBall.setYSpeed(pvcBall.yV);
+            transitionOfBall.stop();
         }
 
         //ball meets the rectangle2
@@ -421,6 +464,14 @@ public class Player_Vs_Computer implements IMode {
                 pvcBall.getTranslateY() - BALL_RADIUS <= pvcRectangle2.getTranslateY() + RECT_W) {
             ++score2_PVC;
             pvcBall.setXSpeed(Math.abs(pvcBall.xV));
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
 
             pvcBall.xV++;
@@ -433,6 +484,7 @@ public class Player_Vs_Computer implements IMode {
 
             pvcBall.setXSpeed(-pvcBall.xV);
             pvcBall.setYSpeed(pvcBall.yV);
+            transitionOfBall.stop();
         }
         pvcRectangle2.moveWithBall(pvcBall);
         scorePVC1.setText("SCORE: " + score1_PVC);

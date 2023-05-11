@@ -6,6 +6,9 @@ import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
 import com.example.pong.obejcts.Ball;
 import com.example.pong.obejcts.Stick;
+import javafx.animation.Animation;
+import javafx.animation.FillTransition;
+import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,8 +33,22 @@ import javafx.util.Duration;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Single_Player extends Controller implements IMode {
+
+    @FXML
+    private static Ball ball;
+    @FXML
+    private static Stick rectangle;
+
+    private static Random random = new Random();
+    public static UserAction action = UserAction.NONE;
+
+    private static int randomColorGenerator;
+    private static ArrayList <Color> colorsOfTheBall = new ArrayList<>();
+    private static FillTransition transitionOfBall;
 
     @FXML
     public static Button restartButton = new Button();
@@ -81,13 +98,6 @@ public class Single_Player extends Controller implements IMode {
     public static String rectangleFile = "rectangle.mp3";
     public static Media rectangleM = new Media(new File(rectangleFile).toURI().toString());
     public static MediaPlayer rectangleSound = new MediaPlayer(rectangleM);
-
-    @FXML
-    private static Ball ball;
-    @FXML
-    private static Stick rectangle;
-
-    public static UserAction action = UserAction.NONE;
 
     public static void startTheGame() throws IOException {
         playStage.close();
@@ -158,6 +168,12 @@ public class Single_Player extends Controller implements IMode {
 
     private static void helper() {
         RUN.setRUNTrue();
+
+        colorsOfTheBall.add(Color.CORAL);
+        colorsOfTheBall.add(Color.CHARTREUSE);
+        colorsOfTheBall.add(Color.BLUEVIOLET);
+        colorsOfTheBall.add(Color.HOTPINK);
+        colorsOfTheBall.add(Color.CYAN);
 
         singlePlayerStage.setTitle("Singleplayer Ball Game");
         DropShadow shadow = new DropShadow();
@@ -235,12 +251,28 @@ public class Single_Player extends Controller implements IMode {
         //if ball meets the left side of the window
         if (ball.getTranslateX() - BALL_RADIUS <= 0){
             ball.setXSpeed(Math.abs(ball.xV));
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color)ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
         }
 
         //if ball hits the right side of the window
         else if (ball.getTranslateX() + BALL_RADIUS >= APP_W){
             ball.setXSpeed(-ball.xV);
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
         }
 
@@ -250,7 +282,6 @@ public class Single_Player extends Controller implements IMode {
             ball.setYSpeed(0);
             restartButton.setDisable(false);
             DropShadow dropShadow  = new DropShadow();
-            dropShadow = new DropShadow();
             dropShadow.setOffsetX(4.0f);
             dropShadow.setOffsetY(4.0f);
             dropShadow.setColor(Color.BLACK);
@@ -274,6 +305,14 @@ public class Single_Player extends Controller implements IMode {
         //if ball meets the top of the window
         else if (ball.getTranslateY() - BALL_RADIUS <= 0){
             ball.setYSpeed(-ball.yV);
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
+
             playBallSound(ballSound,ballM);
         }
         //if ball meets the rectangle
@@ -283,6 +322,13 @@ public class Single_Player extends Controller implements IMode {
             ++score;
 
             ball.setYSpeed(Math.abs(ball.yV));
+
+            //color change
+            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
+            transitionOfBall = new FillTransition(Duration.seconds(1),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            transitionOfBall.setAutoReverse(false);
+            transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfBall.play();
 
             playBallSound(ballSound,ballM);
 
@@ -298,6 +344,7 @@ public class Single_Player extends Controller implements IMode {
 
             ball.setXSpeed(ball.xV);
             ball.setYSpeed(-ball.yV);
+            transitionOfBall.stop();
         }
 
         scoreText.setText("SCORE : " + score);
