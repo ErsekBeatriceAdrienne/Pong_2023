@@ -8,3 +8,4 @@
 1.0.0.0 - needs jdk 19!
 1.0.0.1 - out
 1.0.0.2 - out,with semi workin back to main menu button
+2023.05.09 - 1.0.0.3
