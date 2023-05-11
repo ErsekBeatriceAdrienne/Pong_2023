@@ -18,7 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -171,7 +171,9 @@ public class Single_Player extends Controller implements IMode {
         colorsOfTheBall.add(Color.SKYBLUE);
         colorsOfTheBall.add(Color.DEEPPINK);
         colorsOfTheBall.add(Color.GREENYELLOW);
-        colorsOfTheBall.add(Color.GRAY);
+        colorsOfTheBall.add(Color.YELLOW);
+        colorsOfTheBall.add(Color.PURPLE);
+        colorsOfTheBall.add(Color.ORANGE);
         colorsOfTheBall.add(Color.BLUEVIOLET);
         colorsOfTheBall.add(Color.HOTPINK);
         colorsOfTheBall.add(Color.CYAN);
@@ -191,7 +193,7 @@ public class Single_Player extends Controller implements IMode {
         dropShadow.setColor(Color.BLACK);
 
         scoreText.setText("SCORE: " + score);
-        scoreText.setFill(Color.BLACK);
+        scoreText.setFill(Color.HOTPINK);
         scoreText.setX(APP_W - 70);
         scoreText.setY(20);
 
@@ -214,7 +216,8 @@ public class Single_Player extends Controller implements IMode {
         root.setPrefHeight(APP_H);
         root.setPrefWidth(APP_W);
         //root.setStyle("-fx-background-image: url('https://mcdn.wallpapersafari.com/medium/99/61/CI1pFG.png')");
-        root.setStyle("-fx-background-color: '#FFDCD1'");
+        root.setStyle("-fx-background-color: '#232323'");
+        root.setBorder(new Border(new BorderStroke(Color.HOTPINK, BorderStrokeStyle.SOLID,null,new BorderWidths(3))));
 
         ball = new Ball(BALL_RADIUS,APP_W / 2,APP_H / 2);
         rectangle = new Stick( 1,APP_W / 2.5,APP_H  - RECT_H);
@@ -261,6 +264,7 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -275,6 +279,7 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -296,6 +301,8 @@ public class Single_Player extends Controller implements IMode {
             restartButton.setOpacity(1);
             backToStartButtonSinglePlayer.setOpacity(1);
             backToStartButtonSinglePlayer.setDisable(false);
+            //root.setBorder(new Border(new BorderStroke(ball.getFill(), BorderStrokeStyle.SOLID,null,new BorderWidths(3))));
+            color_Picker(randomColorGeneratorBall,3);
 
             finalScoreText.setOpacity(1);
             Font font = Font.font("new times roman", FontWeight.BOLD, FontPosture.REGULAR,30);
@@ -317,6 +324,7 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
         //if ball meets the rectangle
@@ -333,28 +341,6 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionRectangle = new FillTransition(Duration.seconds(0.5),rectangle,(Color)rectangle.getFill(),colorsOfTheBall.get(randomColorGeneratorRectangle));
 
-            if (randomColorGeneratorRectangle == 0) {
-                root.setStyle("-fx-background-color: lightcyan");
-            }
-            else if (randomColorGeneratorRectangle == 1) {
-                root.setStyle("-fx-background-color: '#FFDCD1'");
-            }
-            else if (randomColorGeneratorRectangle == 2) {
-                root.setStyle("-fx-background-color: '#F2FFCC'");
-            }
-            else if (randomColorGeneratorRectangle == 3) {
-                root.setStyle("-fx-background-color: lightgray");
-            }
-            else if (randomColorGeneratorRectangle == 4) {
-                root.setStyle("-fx-background-color: lavender");
-            }
-            else if (randomColorGeneratorRectangle == 5) {
-                root.setStyle("-fx-background-color: '#FFDCD1'");
-            }
-            else {
-                root.setStyle("-fx-background-color: lightblue");
-            }
-
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionRectangle.setInterpolator(Interpolator.LINEAR);
@@ -362,6 +348,7 @@ public class Single_Player extends Controller implements IMode {
             transitionRectangle.play();
             transitionOfBall.play();
 
+            color_Picker(randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
 
             //optional for more difficulty
@@ -398,9 +385,9 @@ public class Single_Player extends Controller implements IMode {
         rectangle.setTranslateX(APP_W / 2.5);
         rectangle.setTranslateY(APP_H - RECT_H);
 
-        root.setStyle("-fx-background-color: '#FFDCD1'");
         rectangle.setFill(Color.HOTPINK);
         ball.setFill(Color.CYAN);
+        root.setBorder(new Border(new BorderStroke(Color.HOTPINK, BorderStrokeStyle.SOLID,null,BorderStroke.THICK)));
 
         //set effect
         DropShadow dropShadow  = new DropShadow();
@@ -418,6 +405,10 @@ public class Single_Player extends Controller implements IMode {
         ball.setTranslateY(APP_H / 2);
 
         singlePlayerStage.setOpacity(1);
+    }
+
+    private static void color_Picker(int random_number, int width) {
+        root.setBorder(new Border(new BorderStroke(colorsOfTheBall.get(random_number), BorderStrokeStyle.SOLID,null,new BorderWidths(width))));
     }
 
     @FXML
