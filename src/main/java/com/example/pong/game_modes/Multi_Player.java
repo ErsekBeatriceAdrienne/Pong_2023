@@ -39,11 +39,11 @@ import static com.example.pong.game_modes.Single_Player.*;
 public class Multi_Player implements IMode {
     @FXML
     public static Button restartButton = new Button();
-
-    private static Random random1 = new Random();
-    private static Random random2 = new Random();
     public static UserAction action = UserAction.NONE;
 
+    //for transition
+    private static Random random1 = new Random();
+    private static Random random2 = new Random();
     private static int randomColorGenerator1;
     private static int randomColorGenerator2;
     private static ArrayList<Color> colorsOfTheBall1 = new ArrayList<>();
@@ -51,10 +51,12 @@ public class Multi_Player implements IMode {
     private static FillTransition transitionOfBall1;
     private static FillTransition transitionOfBall2;
 
+    //sound
     private static String ballFile = "ball_sound.mp3";
     public static Media ballM = new Media(new File(ballFile).toURI().toString());
     public static MediaPlayer ballSound = new MediaPlayer(ballM);
 
+    //sizes
     private static final int APP_W = 500;
     private static final int APP_H = 700;
     private static final int MULTI_W = 800;
@@ -155,13 +157,23 @@ public class Multi_Player implements IMode {
 
     private static void initialize() {
 
-        colorsOfTheBall1.add(Color.CORAL);
+        colorsOfTheBall1.add(Color.LIGHTBLUE);
+        colorsOfTheBall1.add(Color.LIGHTCYAN);
+        colorsOfTheBall1.add(Color.LIGHTPINK);
+        colorsOfTheBall1.add(Color.LIGHTSALMON);
+        colorsOfTheBall1.add(Color.LIGHTGREEN);
+        colorsOfTheBall1.add(Color.LIGHTGRAY);
         colorsOfTheBall1.add(Color.CHARTREUSE);
         colorsOfTheBall1.add(Color.BLUEVIOLET);
         colorsOfTheBall1.add(Color.HOTPINK);
         colorsOfTheBall1.add(Color.CYAN);
 
-        colorsOfTheBall2.add(Color.CORAL);
+        colorsOfTheBall2.add(Color.LIGHTBLUE);
+        colorsOfTheBall2.add(Color.LIGHTCYAN);
+        colorsOfTheBall2.add(Color.LIGHTPINK);
+        colorsOfTheBall2.add(Color.LIGHTSALMON);
+        colorsOfTheBall2.add(Color.LIGHTGREEN);
+        colorsOfTheBall2.add(Color.LIGHTGRAY);
         colorsOfTheBall2.add(Color.CHARTREUSE);
         colorsOfTheBall2.add(Color.BLUEVIOLET);
         colorsOfTheBall2.add(Color.HOTPINK);
@@ -347,7 +359,7 @@ public class Multi_Player implements IMode {
             player1Ball.setXSpeed(Math.abs(player1Ball.xV));
 
             //color change
-            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size());
             transitionOfBall1 = new FillTransition(Duration.seconds(0.5),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
             transitionOfBall1.setAutoReverse(false);
             transitionOfBall1.setInterpolator(Interpolator.LINEAR);
@@ -360,7 +372,7 @@ public class Multi_Player implements IMode {
             player1Ball.setXSpeed(-player1Ball.xV);
 
             //color change
-            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size());
             transitionOfBall1 = new FillTransition(Duration.seconds(0.5),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
             transitionOfBall1.setAutoReverse(false);
             transitionOfBall1.setInterpolator(Interpolator.LINEAR);
@@ -373,7 +385,7 @@ public class Multi_Player implements IMode {
             player1Ball.setYSpeed(-player1Ball.yV);
 
             //color change
-            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size());
             transitionOfBall1 = new FillTransition(Duration.seconds(0.5),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
             transitionOfBall1.setAutoReverse(false);
             transitionOfBall1.setInterpolator(Interpolator.LINEAR);
@@ -422,7 +434,7 @@ public class Multi_Player implements IMode {
             ++score1;
 
             //color change
-            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size() - 1);
+            randomColorGenerator1 = random1.nextInt(colorsOfTheBall1.size());
             transitionOfBall1 = new FillTransition(Duration.seconds(0.5),player1Ball,(Color)player1Ball.getFill(),colorsOfTheBall1.get(randomColorGenerator1));
             transitionOfBall1.setAutoReverse(false);
             transitionOfBall1.setInterpolator(Interpolator.LINEAR);
@@ -453,7 +465,7 @@ public class Multi_Player implements IMode {
             player2Ball.setXSpeed(Math.abs(player2Ball.xV));
 
             //color change
-            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size());
             transitionOfBall2 = new FillTransition(Duration.seconds(0.5),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
             transitionOfBall2.setAutoReverse(false);
             transitionOfBall2.setInterpolator(Interpolator.LINEAR);
@@ -466,7 +478,7 @@ public class Multi_Player implements IMode {
             player2Ball.setXSpeed(-player2Ball.xV);
 
             //color change
-            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size());
             transitionOfBall2 = new FillTransition(Duration.seconds(0.5),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
             transitionOfBall2.setAutoReverse(false);
             transitionOfBall2.setInterpolator(Interpolator.LINEAR);
@@ -479,7 +491,7 @@ public class Multi_Player implements IMode {
             player2Ball.setYSpeed(-player2Ball.yV);
 
             //color change
-            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size() - 1);
+            randomColorGenerator2 = random2.nextInt(colorsOfTheBall2.size());
             transitionOfBall2 = new FillTransition(Duration.seconds(0.5),player2Ball,(Color)player2Ball.getFill(),colorsOfTheBall2.get(randomColorGenerator2));
             transitionOfBall2.setAutoReverse(false);
             transitionOfBall2.setInterpolator(Interpolator.LINEAR);

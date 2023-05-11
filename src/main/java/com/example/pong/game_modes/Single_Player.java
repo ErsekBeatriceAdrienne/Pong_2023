@@ -6,7 +6,6 @@ import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
 import com.example.pong.obejcts.Ball;
 import com.example.pong.obejcts.Stick;
-import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
@@ -38,17 +37,21 @@ import java.util.Random;
 
 public class Single_Player extends Controller implements IMode {
 
+    public static UserAction action = UserAction.NONE;
     @FXML
     private static Ball ball;
     @FXML
     private static Stick rectangle;
 
+    //ball color transition
     private static Random random = new Random();
-    public static UserAction action = UserAction.NONE;
-
-    private static int randomColorGenerator;
+    private static int randomColorGeneratorBall;
+    private static int randomColorGeneratorRectangle;
     private static ArrayList <Color> colorsOfTheBall = new ArrayList<>();
     private static FillTransition transitionOfBall;
+
+    //rectangle color transition
+    private static FillTransition transitionRectangle;
 
     @FXML
     public static Button restartButton = new Button();
@@ -94,10 +97,6 @@ public class Single_Player extends Controller implements IMode {
     Button playButton = new Button();
     @FXML
     public static Button backToStartButtonSinglePlayer = new Button();
-
-    public static String rectangleFile = "rectangle.mp3";
-    public static Media rectangleM = new Media(new File(rectangleFile).toURI().toString());
-    public static MediaPlayer rectangleSound = new MediaPlayer(rectangleM);
 
     public static void startTheGame() throws IOException {
         playStage.close();
@@ -169,8 +168,10 @@ public class Single_Player extends Controller implements IMode {
     private static void helper() {
         RUN.setRUNTrue();
 
-        colorsOfTheBall.add(Color.CORAL);
-        colorsOfTheBall.add(Color.CHARTREUSE);
+        colorsOfTheBall.add(Color.SKYBLUE);
+        colorsOfTheBall.add(Color.DEEPPINK);
+        colorsOfTheBall.add(Color.GREENYELLOW);
+        colorsOfTheBall.add(Color.GRAY);
         colorsOfTheBall.add(Color.BLUEVIOLET);
         colorsOfTheBall.add(Color.HOTPINK);
         colorsOfTheBall.add(Color.CYAN);
@@ -179,7 +180,7 @@ public class Single_Player extends Controller implements IMode {
         DropShadow shadow = new DropShadow();
         scoreText.setEffect(shadow);
         finalScoreText.setOpacity(0);
-        finalScoreText.setFill(Color.HOTPINK);
+        finalScoreText.setFill(Color.DEEPPINK);
         finalScoreText.setStroke(Color.BLACK);
         finalScoreText.setStrokeWidth(0.5);
         finalScoreText.setX(162);
@@ -212,7 +213,8 @@ public class Single_Player extends Controller implements IMode {
 
         root.setPrefHeight(APP_H);
         root.setPrefWidth(APP_W);
-        root.setStyle("-fx-background-image: url('https://mcdn.wallpapersafari.com/medium/99/61/CI1pFG.png')");
+        //root.setStyle("-fx-background-image: url('https://mcdn.wallpapersafari.com/medium/99/61/CI1pFG.png')");
+        root.setStyle("-fx-background-color: '#FFDCD1'");
 
         ball = new Ball(BALL_RADIUS,APP_W / 2,APP_H / 2);
         rectangle = new Stick( 1,APP_W / 2.5,APP_H  - RECT_H);
@@ -253,8 +255,8 @@ public class Single_Player extends Controller implements IMode {
             ball.setXSpeed(Math.abs(ball.xV));
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color)ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color)ball.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -267,8 +269,8 @@ public class Single_Player extends Controller implements IMode {
             ball.setXSpeed(-ball.xV);
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -300,6 +302,8 @@ public class Single_Player extends Controller implements IMode {
             finalScoreText.setText(" Your score : " + score);
             finalScoreText.setFont(font);
             finalScoreText.setEffect(dropShadow);
+            transitionOfBall.stop();
+            transitionRectangle.stop();
         }
 
         //if ball meets the top of the window
@@ -307,8 +311,8 @@ public class Single_Player extends Controller implements IMode {
             ball.setYSpeed(-ball.yV);
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
@@ -324,10 +328,36 @@ public class Single_Player extends Controller implements IMode {
             ball.setYSpeed(Math.abs(ball.yV));
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size() - 1);
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            randomColorGeneratorRectangle = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),ball,(Color) ball.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
+            transitionRectangle = new FillTransition(Duration.seconds(0.5),rectangle,(Color)rectangle.getFill(),colorsOfTheBall.get(randomColorGeneratorRectangle));
+
+            if (randomColorGeneratorRectangle == 0) {
+                root.setStyle("-fx-background-color: lightcyan");
+            }
+            else if (randomColorGeneratorRectangle == 1) {
+                root.setStyle("-fx-background-color: '#FFDCD1'");
+            }
+            else if (randomColorGeneratorRectangle == 2) {
+                root.setStyle("-fx-background-color: '#F2FFCC'");
+            }
+            else if (randomColorGeneratorRectangle == 3) {
+                root.setStyle("-fx-background-color: lightgray");
+            }
+            else if (randomColorGeneratorRectangle == 4) {
+                root.setStyle("-fx-background-color: lavender");
+            }
+            else if (randomColorGeneratorRectangle == 5) {
+                root.setStyle("-fx-background-color: '#FFDCD1'");
+            }
+            else {
+                root.setStyle("-fx-background-color: lightblue");
+            }
+
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionRectangle.play();
             transitionOfBall.play();
 
             playBallSound(ballSound,ballM);
@@ -365,6 +395,10 @@ public class Single_Player extends Controller implements IMode {
         //set the elements to base position
         rectangle.setTranslateX(APP_W / 2.5);
         rectangle.setTranslateY(APP_H - RECT_H);
+
+        root.setStyle("-fx-background-color: '#FFDCD1'");
+        rectangle.setFill(Color.HOTPINK);
+        ball.setFill(Color.CYAN);
 
         //set effect
         DropShadow dropShadow  = new DropShadow();

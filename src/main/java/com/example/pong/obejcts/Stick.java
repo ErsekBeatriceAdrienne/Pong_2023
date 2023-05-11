@@ -78,7 +78,9 @@ public class Stick extends Rectangle {
         xV = xDirection;
     }
 
-    public void moveWithBall(Ball ball) { this.setTranslateY(ball.getTranslateY() - RECT_W / 2);}
+    public void moveWithBall(Ball ball) {
+        this.setTranslateY((ball.getTranslateY() - RECT_W / 4));
+    }
 
     public void moveRectangle() {
         this.setTranslateX(this.getTranslateX() + xV);
@@ -86,10 +88,6 @@ public class Stick extends Rectangle {
 
     public int getSpeed() {
         return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public int getRectangleId() {
