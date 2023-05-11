@@ -357,6 +357,8 @@ public class Single_Player extends Controller implements IMode {
 
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionRectangle.setInterpolator(Interpolator.LINEAR);
+            transitionRectangle.setAutoReverse(false);
             transitionRectangle.play();
             transitionOfBall.play();
 
