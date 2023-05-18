@@ -102,8 +102,6 @@ public class Multi_Player implements IMode, IName {
     private static String name1, name2, color1, color2;
 
     @FXML
-    private Button save = new Button();
-    @FXML
     private Button start = new Button();
     //text fields
     @FXML
@@ -443,7 +441,6 @@ public class Multi_Player implements IMode, IName {
             player1Stick.setEffect(new BoxBlur(10,10,3));
             player2Ball.setEffect(new BoxBlur(10,10,3));
             player2Stick.setEffect(new BoxBlur(10,10,3));
-            //multiplayerPane.setEffect(new GaussianBlur());
 
             DropShadow dropShadow  = new DropShadow();
             dropShadow.setOffsetX(4.0f);
@@ -527,6 +524,8 @@ public class Multi_Player implements IMode, IName {
             restartButton.setEffect(dropShadow);
 
             player1Ball.setEffect(new BoxBlur(10,10,3));
+            player_1_name_text.setEffect(new BoxBlur(10,10,3));
+            player_2_name_text.setEffect(new BoxBlur(10,10,3));
 
             restartButton.setOpacity(1);
             backToStartButtonSinglePlayer.setOpacity(1);
@@ -636,6 +635,8 @@ public class Multi_Player implements IMode, IName {
 
             scoreMulti1.setEffect(new BoxBlur(10,10,3));
             scoreMulti2.setEffect(new BoxBlur(10,10,3));
+            player_1_name_text.setEffect(new BoxBlur(10,10,3));
+            player_2_name_text.setEffect(new BoxBlur(10,10,3));
 
             player2Ball.setXSpeed(0);
             player2Ball.setYSpeed(0);
@@ -708,6 +709,8 @@ public class Multi_Player implements IMode, IName {
         restartButton.setOpacity(0);
         backToStartButtonMultiPlayer.setDisable(true);
         backToStartButtonMultiPlayer.setOpacity(0);
+        player_1_name_text.setEffect(dropShadow);
+        player_2_name_text.setEffect(dropShadow);
 
         //set the elements to base position
         player1Stick.setTranslateX(MULTI_W / 4);

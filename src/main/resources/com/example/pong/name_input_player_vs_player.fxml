@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pong.Multi_Player">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pong.Player_Vs_Player">
    <children>
       <TextField fx:id="name_player_1" alignment="CENTER" layoutX="76.0" layoutY="131.0" prefHeight="28.0" prefWidth="105.0" promptText="give name" style="-fx-background-color: #000000;">
          <font>
@@ -19,13 +19,13 @@
          <effect>
             <Blend />
          </effect></TextField>
-      <TextField fx:id="name_player_2" alignment="CENTER" layoutX="208.0" layoutY="131.0" prefHeight="28.0" prefWidth="105.0" promptText="give name" style="-fx-background-color: #2222#8E918F22;">
+      <TextField fx:id="name_player_2" alignment="CENTER" layoutX="208.0" layoutY="131.0" prefHeight="28.0" prefWidth="105.0" promptText="give name" style="-fx-background-color: #000000;">
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Text layoutX="124.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MULTIPLAYER">
+      <Text fill="#d02eff" layoutX="96.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLAYER VS PLAYER">
          <font>
-            <Font size="23.0" />
+            <Font size="24.0" />
          </font>
          <stroke>
             <LinearGradient endX="1.0" endY="1.0" startX="0.16666666666666663">
@@ -43,26 +43,10 @@
                </stops>
             </LinearGradient>
          </stroke>
-         <fill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="1.0" green="0.25462964177131653" blue="0.7018518447875977" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.3199999928474426" green="0.956615686416626" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
       </Text>
-      <Text fill="#ff3bbe" layoutX="103.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
+      <Text fill="#3bf7ff" layoutX="103.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
          <font>
-            <Font size="16.0" />
+            <Font size="15.0" />
          </font>
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
@@ -81,7 +65,7 @@
             </LinearGradient>
          </stroke>
       </Text>
-      <Text fill="#38ffe1" layoutX="235.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
+      <Text fill="#38fff4" layoutX="235.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
          <font>
             <Font size="15.0" />
          </font>
@@ -102,7 +86,7 @@
             </LinearGradient>
          </stroke>
       </Text>
-      <Button fx:id="start" layoutX="301.0" layoutY="242.0" mnemonicParsing="false" onAction="#startMultiplayer" prefHeight="27.0" prefWidth="65.0" style="-fx-background-color: #000000; -fx-border-color: #4df3ff;" text="START" textFill="#f34fff" />
+      <Button fx:id="start" layoutX="303.0" layoutY="242.0" mnemonicParsing="false" onAction="#startPVP" prefHeight="27.0" prefWidth="65.0" style="-fx-background-color: #000000; -fx-border-color: #4df3ff;" text="START" textFill="#f34fff" />
       <Button layoutX="214.0" layoutY="241.0" mnemonicParsing="false" onAction="#clear" prefHeight="28.0" prefWidth="65.0" style="-fx-background-color: #000000; -fx-border-color: #4df3ff;" text="CLEAR" textFill="#f34fff" />
       <TextField fx:id="color_1" alignment="CENTER" layoutX="76.0" layoutY="173.0" prefHeight="28.0" prefWidth="105.0" promptText="give color" style="-fx-background-color: #000000;">
          <font>

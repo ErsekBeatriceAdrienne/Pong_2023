@@ -7,10 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import static com.example.pong.Player_Vs_Computer.start_PVC;
 import static com.example.pong.Single_Player.*;
-import static com.example.pong.Multi_Player.*;
-import static com.example.pong.Player_Vs_Player.*;
-import static com.example.pong.Player_Vs_Computer.*;
 
 public class Controller {
 
@@ -41,13 +39,13 @@ public class Controller {
     private void multi_player() throws IOException {
         IName name = new Multi_Player();
         name.start(playStage);
-        //startMultiplayer();
     }
 
     ///PLAYER_VS_PLAYER
     @FXML
     private void player_vs_player() throws IOException {
-        startPVP();
+        IName name = new Player_Vs_Player();
+        name.start(playStage);
     }
 
     ///PLAYER_VS_COMPUTER

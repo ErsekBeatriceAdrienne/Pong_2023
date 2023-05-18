@@ -1,5 +1,6 @@
 package com.example.pong;
 
+import com.example.pong.interfaces.IName;
 import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
 import com.example.pong.obejcts.Ball;
@@ -9,13 +10,15 @@ import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -35,16 +38,17 @@ import java.util.Random;
 import static com.example.pong.Controller.*;
 import static com.example.pong.Multi_Player.score1;
 import static com.example.pong.Multi_Player.score2;
-import static com.example.pong.Single_Player.playBallSound;
-import static com.example.pong.Single_Player.playStage;
+import static com.example.pong.Single_Player.*;
 
-public class Player_Vs_Player implements IMode {
+public class Player_Vs_Player implements IMode, IName {
 
     private static Random random = new Random();
 
-    private static int randomColorGenerator;
+    private static int randomColorGeneratorBall,randomColorGeneratorRect;
     private static ArrayList<Color> colorsOfTheBall = new ArrayList<>();
     private static FillTransition transitionOfBall;
+    private static FillTransition transitionOfRect1;
+    private static FillTransition transitionOfRect2;
 
     @FXML
     public static Button restartButton = new Button();
@@ -52,6 +56,7 @@ public class Player_Vs_Player implements IMode {
     private static String ballFile = "ball_sound.mp3";
     public static Media ballM = new Media(new File(ballFile).toURI().toString());
     public static MediaPlayer ballSound = new MediaPlayer(ballM);
+
     enum UserActionPVP {
         NONE, UP, DOWN, W, S
     }
@@ -83,12 +88,37 @@ public class Player_Vs_Player implements IMode {
     private static Stick pvpRectangle1;
     private static Stick pvpRectangle2;
 
-    public static void startPVP() throws IOException {
+    ///NAME OF PLAYERS
+
+    private static Stage nameStage = new Stage();
+    private static Scene nameScene;
+    private static String name1, name2, color1, color2;
+
+    @FXML
+    private Button start = new Button();
+    //text fields
+    @FXML
+    private TextField color_1 = new TextField();
+    @FXML
+    private TextField color_2 = new TextField();
+    @FXML
+    private TextField name_player_1 = new TextField();
+    @FXML
+    private TextField name_player_2 = new TextField();
+
+    //player names
+    private static Text player_1_name_text = new Text(name1);
+    private static Text player_2_name_text = new Text(name2);
+
+    @FXML
+    public void startPVP() throws IOException {
+        nameStage.close();
         playStage.close();
         RUN_PVP.setRUNTrue();
         pvpScene = new Scene(createContentPVP());
         pvpThread = new Thread(Player_Vs_Player::runPVP);
         pvpThread.start();
+        save_names();
 
         pvpScene.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
@@ -126,6 +156,64 @@ public class Player_Vs_Player implements IMode {
         pvpStage.show();
     }
 
+    @Override
+    public void start(Stage stage) throws IOException {
+        stage.close();
+        Parent window = FXMLLoader.load(getClass().getResource("name_input_player_vs_player.fxml"));
+        nameScene = new Scene(window,WIDTH,HEIGHT);
+        nameStage.setResizable(false);
+        nameStage.setScene(nameScene);
+        nameStage.setTitle("Name");
+        nameStage.show();
+    }
+
+    @FXML
+    public void save_names() {
+        name1 = name_player_1.getText();
+        name2 = name_player_2.getText();
+        color1 = color_1.getText();
+        color2 = color_2.getText();
+
+        color_picker_for_name(color1,player_1_name_text);
+        color_picker_for_name(color2,player_2_name_text);
+        scorePVP1.setFill(player_1_name_text.getFill());
+        scorePVP2.setFill(player_2_name_text.getFill());
+
+        player_1_name_text.setText(name1);
+        player_2_name_text.setText(name2);
+
+        name_player_1.clear();
+        name_player_2.clear();
+        color_1.clear();
+        color_2.clear();
+    }
+
+    private static void color_picker_for_name(String color,Text name) {
+        if (color.equals("pink")) {
+            name.setFill(Color.DEEPPINK);
+        }
+        else if (color.equals("blue")) {
+            name.setFill(Color.CYAN);
+        }
+        else if (color.equals("yellow")) {
+            name.setFill(Color.YELLOW);
+        }
+        else if (color.equals("lime") || color.equals("green")) {
+            name.setFill(Color.CHARTREUSE);
+        }
+        else if (color.equals("grey")) {
+            name.setFill(Color.GREY);
+        }
+    }
+
+    @FXML
+    public void clear() {
+        name_player_1.clear();
+        name_player_2.clear();
+        color_1.clear();
+        color_2.clear();
+    }
+
     public static Parent createContentPVP() throws IOException {
         pvpInitializer();
         backToMainPVP.setOnAction(new EventHandler<ActionEvent>() {
@@ -149,11 +237,18 @@ public class Player_Vs_Player implements IMode {
             }
         });
 
-        pvpPane.getChildren().addAll(scorePVP1,scorePVP2, pvpBall, pvpRectangle1,pvpRectangle2, restartButton,backToMainPVP,winnerPVPText);
+        pvpPane.getChildren().addAll(scorePVP1,scorePVP2, pvpBall, pvpRectangle1,pvpRectangle2, restartButton,backToMainPVP,winnerPVPText,player_1_name_text,player_2_name_text);
         return pvpPane;
     }
 
     private static void pvpInitializer() {
+        RUN_PVP.setRUNTrue();
+
+        DropShadow dropShadow  = new DropShadow();
+        dropShadow.setOffsetX(4.0f);
+        dropShadow.setOffsetY(4.0f);
+        dropShadow.setColor(Color.BLACK);
+        Font font_name = Font.font("new times roman", FontWeight.BOLD, FontPosture.REGULAR,20);
 
         colorsOfTheBall.add(Color.LIGHTBLUE);
         colorsOfTheBall.add(Color.LIGHTCYAN);
@@ -166,13 +261,17 @@ public class Player_Vs_Player implements IMode {
         colorsOfTheBall.add(Color.HOTPINK);
         colorsOfTheBall.add(Color.CYAN);
 
+        player_1_name_text.setX((PVP_W / 2) / 2);
+        player_1_name_text.setY(25);
+        player_1_name_text.setFont(font_name);
+        player_1_name_text.setEffect(dropShadow);
+        player_2_name_text.setX((PVP_W / 2) + (PVP_W / 4));
+        player_2_name_text.setY(25);
+        player_2_name_text.setFont(font_name);
+        player_2_name_text.setEffect(dropShadow);
+
         score1_PVP = 0;
         score2_PVP = 0;
-        RUN_PVP.setRUNTrue();
-        DropShadow dropShadow  = new DropShadow();
-        dropShadow.setOffsetX(4.0f);
-        dropShadow.setOffsetY(4.0f);
-        dropShadow.setColor(Color.BLACK);
 
         Font font = Font.font("new times roman", FontWeight.BOLD, FontPosture.REGULAR,30);
         winnerPVPText.setOpacity(0);
@@ -229,7 +328,8 @@ public class Player_Vs_Player implements IMode {
 
         pvpPane.setPrefHeight(PVP_H);
         pvpPane.setPrefWidth(PVP_W);
-        pvpPane.setStyle("-fx-background-image: url('https://cdn.shopify.com/s/files/1/0575/0987/1774/files/1_6df15c2e-7475-4b2e-839e-3826bc5c02f6.png?v=1653967370')");
+        pvpPane.setBorder(new Border(new BorderStroke(Color.PLUM, BorderStrokeStyle.SOLID,null,new BorderWidths(3))));
+        pvpPane.setStyle("-fx-background-color: '#232323'");
     }
 
     private static void moveRectanglesPVP() {
@@ -285,13 +385,15 @@ public class Player_Vs_Player implements IMode {
 
             scorePVP1.setEffect(new BoxBlur(10,10,3));
             scorePVP2.setEffect(new BoxBlur(10,10,3));
+            player_1_name_text.setEffect(new BoxBlur(10,10,3));
+            player_2_name_text.setEffect(new BoxBlur(10,10,3));
 
             winnerPVPText.setOpacity(100);
             if (score1_PVP < score2_PVP) {
-                winnerPVPText.setText("WINNER IS PLAYER 2!");
+                winnerPVPText.setText("WINNER IS " + name2.toUpperCase() + "!");
             }
             else if (score1_PVP > score2_PVP){
-                winnerPVPText.setText("WINNER IS PLAYER 1!");
+                winnerPVPText.setText("WINNER IS " + name1.toUpperCase() + "!");
             }
             else if (score1_PVP == score2_PVP) {
                 winnerPVPText.setX(400);
@@ -320,13 +422,15 @@ public class Player_Vs_Player implements IMode {
 
             scorePVP1.setEffect(new BoxBlur(10,10,3));
             scorePVP2.setEffect(new BoxBlur(10,10,3));
+            player_1_name_text.setEffect(new BoxBlur(10,10,3));
+            player_2_name_text.setEffect(new BoxBlur(10,10,3));
 
             winnerPVPText.setOpacity(100);
             if (score1_PVP < score2_PVP) {
-                winnerPVPText.setText("WINNER IS PLAYER 2!");
+                winnerPVPText.setText("WINNER IS " + name2.toUpperCase() + "!");
             }
             else if (score1_PVP > score2_PVP){
-                winnerPVPText.setText("WINNER IS PLAYER 1!");
+                winnerPVPText.setText("WINNER IS " + name1.toUpperCase() + "!");
             }
             else if (score1_PVP == score2_PVP) {
                 winnerPVPText.setX(400);
@@ -340,12 +444,13 @@ public class Player_Vs_Player implements IMode {
             pvpBall.setYSpeed(-pvpBall.yV);
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(pvpPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -354,12 +459,13 @@ public class Player_Vs_Player implements IMode {
             pvpBall.setYSpeed(-pvpBall.yV);
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(pvpPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -371,12 +477,18 @@ public class Player_Vs_Player implements IMode {
             pvpBall.setXSpeed(Math.abs(pvpBall.xV));
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            randomColorGeneratorRect = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
+            transitionOfRect1 = new FillTransition(Duration.seconds(0.5),pvpRectangle1,(Color) pvpRectangle1.getFill(),colorsOfTheBall.get(randomColorGeneratorRect));
+            transitionOfRect1.setAutoReverse(false);
             transitionOfBall.setAutoReverse(false);
+            transitionOfRect1.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfRect1.play();
             transitionOfBall.play();
 
+            color_Picker(pvpPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
 
             pvpBall.xV++;
@@ -399,12 +511,18 @@ public class Player_Vs_Player implements IMode {
             pvpBall.setXSpeed(Math.abs(pvpBall.xV));
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            randomColorGeneratorRect = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvpBall,(Color)pvpBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
+            transitionOfRect2 = new FillTransition(Duration.seconds(0.5),pvpRectangle2,(Color) pvpRectangle1.getFill(),colorsOfTheBall.get(randomColorGeneratorRect));
+            transitionOfRect2.setInterpolator(Interpolator.LINEAR);
+            transitionOfRect2.setAutoReverse(false);
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfRect2.play();
             transitionOfBall.play();
 
+            color_Picker(pvpPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
 
             pvpBall.xV++;
@@ -455,13 +573,14 @@ public class Player_Vs_Player implements IMode {
         scorePVP1.setText("SCORE: " + score1_PVP);
         scorePVP2.setText("SCORE: " + score2_PVP);
         DropShadow dropShadow  = new DropShadow();
-        dropShadow = new DropShadow();
         dropShadow.setOffsetX(4.0f);
         dropShadow.setOffsetY(4.0f);
         dropShadow.setColor(Color.BLACK);
         scorePVP1.setEffect(dropShadow);
         scorePVP2.setEffect(dropShadow);
         winnerPVPText.setOpacity(0);
+        player_1_name_text.setEffect(dropShadow);
+        player_2_name_text.setEffect(dropShadow);
 
         restartButton.setDisable(true);
         backToMainPVP.setDisable(true);

@@ -15,7 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -33,16 +33,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.pong.Controller.*;
-import static com.example.pong.Single_Player.playBallSound;
-import static com.example.pong.Single_Player.playStage;
+import static com.example.pong.Single_Player.*;
 
 public class Player_Vs_Computer implements IMode {
 
     private static Random random = new Random();
 
-    private static int randomColorGenerator;
+    private static int randomColorGeneratorBall,randomColorGeneratorRect;
     private static ArrayList<Color> colorsOfTheBall = new ArrayList<>();
     private static FillTransition transitionOfBall;
+    private static FillTransition transitionOfRect1;
+    private static FillTransition transitionOfRect2;
 
     @FXML
     public static Button restartButton = new Button();
@@ -53,8 +54,6 @@ public class Player_Vs_Computer implements IMode {
     public static Media ballM = new Media(new File(ballFile).toURI().toString());
     public static MediaPlayer ballSound = new MediaPlayer(ballM);
     public static UserActionPVC actionPVC = UserActionPVC.NONE;
-    @FXML
-    private static Button pvcButton = new Button();
 
     public static Stop_Threads RUN_PVC = new Stop_Threads();
     public static Scene pvcScene;
@@ -81,6 +80,8 @@ public class Player_Vs_Computer implements IMode {
     public static Stick pvcRectangle1;
     public static Stick pvcRectangle2;
 
+
+    @FXML
     public static void start_PVC() throws IOException {
         playStage.close();
         RUN_PVC.setRUNTrue();
@@ -156,6 +157,12 @@ public class Player_Vs_Computer implements IMode {
     }
 
     public static void pvcInitializer() {
+        RUN_PVC.setRUNTrue();
+
+        DropShadow dropShadow  = new DropShadow();
+        dropShadow.setOffsetX(4.0f);
+        dropShadow.setOffsetY(4.0f);
+        dropShadow.setColor(Color.BLACK);
 
         colorsOfTheBall.add(Color.LIGHTBLUE);
         colorsOfTheBall.add(Color.LIGHTCYAN);
@@ -170,12 +177,6 @@ public class Player_Vs_Computer implements IMode {
 
         score1_PVC = 0;
         score2_PVC = 0;
-        RUN_PVC.setRUNTrue();
-
-        DropShadow dropShadow  = new DropShadow();
-        dropShadow.setOffsetX(4.0f);
-        dropShadow.setOffsetY(4.0f);
-        dropShadow.setColor(Color.BLACK);
 
         Font font = Font.font("new times roman", FontWeight.BOLD, FontPosture.REGULAR,30);
         winnerPVCText.setOpacity(0);
@@ -232,7 +233,8 @@ public class Player_Vs_Computer implements IMode {
 
         pvcPane.setPrefHeight(PVC_H);
         pvcPane.setPrefWidth(PVC_W);
-        pvcPane.setStyle("-fx-background-image: url('https://cdn.shopify.com/s/files/1/0575/0987/1774/files/1_6df15c2e-7475-4b2e-839e-3826bc5c02f6.png?v=1653967370')");
+        pvcPane.setBorder(new Border(new BorderStroke(Color.PLUM, BorderStrokeStyle.SOLID,null,new BorderWidths(3))));
+        pvcPane.setStyle("-fx-background-color: '#232323'");
     }
 
     public static void restart_PVC() throws IOException {
@@ -242,7 +244,6 @@ public class Player_Vs_Computer implements IMode {
         scorePVC1.setText("SCORE: " + score1_PVC);
         scorePVC2.setText("SCORE: " + score2_PVC);
         DropShadow dropShadow  = new DropShadow();
-        dropShadow = new DropShadow();
         dropShadow.setOffsetX(4.0f);
         dropShadow.setOffsetY(4.0f);
         dropShadow.setColor(Color.BLACK);
@@ -408,12 +409,13 @@ public class Player_Vs_Computer implements IMode {
             pvcBall.setYSpeed(-pvcBall.yV);
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(pvcPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -422,12 +424,13 @@ public class Player_Vs_Computer implements IMode {
             pvcBall.setYSpeed(-pvcBall.yV);
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
             transitionOfBall.setAutoReverse(false);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
+            color_Picker(pvcPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -439,12 +442,18 @@ public class Player_Vs_Computer implements IMode {
             pvcBall.setXSpeed(Math.abs(pvcBall.xV));
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            randomColorGeneratorRect = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
+            transitionOfRect1 = new FillTransition(Duration.seconds(0.5),pvcRectangle1,(Color) pvcRectangle1.getFill(),colorsOfTheBall.get(randomColorGeneratorRect));
+            transitionOfRect1.setAutoReverse(false);
             transitionOfBall.setAutoReverse(false);
+            transitionOfRect1.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfRect1.play();
             transitionOfBall.play();
 
+            color_Picker(pvcPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
 
             pvcBall.xV++;
@@ -467,12 +476,18 @@ public class Player_Vs_Computer implements IMode {
             pvcBall.setXSpeed(Math.abs(pvcBall.xV));
 
             //color change
-            randomColorGenerator = random.nextInt(colorsOfTheBall.size());
-            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGenerator));
+            randomColorGeneratorBall = random.nextInt(colorsOfTheBall.size());
+            randomColorGeneratorRect = random.nextInt(colorsOfTheBall.size());
+            transitionOfBall = new FillTransition(Duration.seconds(0.5),pvcBall,(Color)pvcBall.getFill(),colorsOfTheBall.get(randomColorGeneratorBall));
+            transitionOfRect2 = new FillTransition(Duration.seconds(0.5),pvcRectangle2,(Color) pvcRectangle2.getFill(),colorsOfTheBall.get(randomColorGeneratorRect));
+            transitionOfRect2.setAutoReverse(false);
             transitionOfBall.setAutoReverse(false);
+            transitionOfRect2.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
+            transitionOfRect2.play();
             transitionOfBall.play();
 
+            color_Picker(pvcPane,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
 
             pvcBall.xV++;
