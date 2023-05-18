@@ -1,15 +1,16 @@
 package com.example.pong;
 
+import com.example.pong.interfaces.IName;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import static com.example.pong.game_modes.Multi_Player.*;
-import static com.example.pong.game_modes.Single_Player.*;
-import static com.example.pong.game_modes.Player_Vs_Player.*;
-import static com.example.pong.game_modes.Player_Vs_Computer.*;
+import static com.example.pong.Single_Player.*;
+import static com.example.pong.Multi_Player.*;
+import static com.example.pong.Player_Vs_Player.*;
+import static com.example.pong.Player_Vs_Computer.*;
 
 public class Controller {
 
@@ -38,7 +39,9 @@ public class Controller {
     ///MULTIPLAYER
     @FXML
     private void multi_player() throws IOException {
-        startMultiplayer();
+        IName name = new Multi_Player();
+        name.start(playStage);
+        //startMultiplayer();
     }
 
     ///PLAYER_VS_PLAYER

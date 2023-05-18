@@ -1,4 +1,4 @@
-package com.example.pong.game_modes;
+package com.example.pong;
 
 import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
@@ -33,10 +33,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.pong.Controller.*;
-import static com.example.pong.game_modes.Multi_Player.score1;
-import static com.example.pong.game_modes.Multi_Player.score2;
-import static com.example.pong.game_modes.Single_Player.playBallSound;
-import static com.example.pong.game_modes.Single_Player.playStage;
+import static com.example.pong.Multi_Player.score1;
+import static com.example.pong.Multi_Player.score2;
+import static com.example.pong.Single_Player.playBallSound;
+import static com.example.pong.Single_Player.playStage;
 
 public class Player_Vs_Player implements IMode {
 

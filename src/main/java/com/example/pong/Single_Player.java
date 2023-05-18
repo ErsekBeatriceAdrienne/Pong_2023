@@ -1,7 +1,5 @@
-package com.example.pong.game_modes;
+package com.example.pong;
 
-import com.example.pong.Controller;
-import com.example.pong.Pong_Game;
 import com.example.pong.obejcts.Stop_Threads;
 import com.example.pong.interfaces.IMode;
 import com.example.pong.obejcts.Ball;
@@ -49,7 +47,6 @@ public class Single_Player extends Controller implements IMode {
     private static int randomColorGeneratorRectangle;
     private static ArrayList <Color> colorsOfTheBall = new ArrayList<>();
     private static FillTransition transitionOfBall;
-
     //rectangle color transition
     private static FillTransition transitionRectangle;
 
@@ -264,7 +261,7 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
-            color_Picker(randomColorGeneratorBall,3);
+            color_Picker(root,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -279,7 +276,7 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
-            color_Picker(randomColorGeneratorBall,3);
+            color_Picker(root,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
 
@@ -302,7 +299,7 @@ public class Single_Player extends Controller implements IMode {
             backToStartButtonSinglePlayer.setOpacity(1);
             backToStartButtonSinglePlayer.setDisable(false);
             //root.setBorder(new Border(new BorderStroke(ball.getFill(), BorderStrokeStyle.SOLID,null,new BorderWidths(3))));
-            color_Picker(randomColorGeneratorBall,3);
+            color_Picker(root,colorsOfTheBall,randomColorGeneratorBall,3);
 
             finalScoreText.setOpacity(1);
             Font font = Font.font("new times roman", FontWeight.BOLD, FontPosture.REGULAR,30);
@@ -324,7 +321,7 @@ public class Single_Player extends Controller implements IMode {
             transitionOfBall.setInterpolator(Interpolator.LINEAR);
             transitionOfBall.play();
 
-            color_Picker(randomColorGeneratorBall,3);
+            color_Picker(root,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
         }
         //if ball meets the rectangle
@@ -348,7 +345,7 @@ public class Single_Player extends Controller implements IMode {
             transitionRectangle.play();
             transitionOfBall.play();
 
-            color_Picker(randomColorGeneratorBall,3);
+            color_Picker(root,colorsOfTheBall,randomColorGeneratorBall,3);
             playBallSound(ballSound,ballM);
 
             //optional for more difficulty
@@ -407,8 +404,8 @@ public class Single_Player extends Controller implements IMode {
         singlePlayerStage.setOpacity(1);
     }
 
-    private static void color_Picker(int random_number, int width) {
-        root.setBorder(new Border(new BorderStroke(colorsOfTheBall.get(random_number), BorderStrokeStyle.SOLID,null,new BorderWidths(width))));
+    static void color_Picker(Pane pane,ArrayList <Color> colorsOfTheBall, int random_number, int width) {
+        pane.setBorder(new Border(new BorderStroke(colorsOfTheBall.get(random_number), BorderStrokeStyle.SOLID,null,new BorderWidths(width))));
     }
 
     @FXML

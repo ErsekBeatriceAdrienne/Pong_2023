@@ -13,6 +13,4 @@ module com.example.pong {
     opens com.example.pong.interfaces to javafx.fxml;
     exports com.example.pong.obejcts;
     opens com.example.pong.obejcts to javafx.fxml;
-    exports com.example.pong.game_modes;
-    opens com.example.pong.game_modes to javafx.fxml;
 }
